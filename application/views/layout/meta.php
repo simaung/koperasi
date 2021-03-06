@@ -7,4 +7,4 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
 	<!-- Title-->
-	<title>Template App</title>
+	<title>Koperasi Simpan Pinjam</title>

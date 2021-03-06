@@ -49,6 +49,17 @@ class Anggota extends MY_Controller
         echo json_encode($output);
     }
 
+    function detail($id)
+    {
+        $anggota = $this->anggota_model->get_data_anggota($id);
+
+        $data['anggota'] = $anggota;
+        $data['menu'] = 'master';
+        $data['js'] = '/assets/js/page/anggota.js';
+        $content = $this->load->view('master/detail_anggota', $data, TRUE);
+        $this->template->load(array(), $content);
+    }
+
     function tambah_anggota()
     {
         $data = $this->anggota_model->tambah_anggota($this->authData['id_user']);

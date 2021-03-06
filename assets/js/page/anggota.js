@@ -146,36 +146,11 @@ $("#form_tambah_anggota").validate({
     },
 });
 
-// function submit_tambah_tabungan() {
-//     tombol_loading();
-//     $.ajax({
-//         type: 'POST',
-//         url: base_url + 'anggota/tambah_anggota',
-//         dataType: 'json',
-//         data: $("#form_tambah_anggota").serialize(),
-//         success: function(response) {
-//             // var obj = $.parseJSON(response);
-//             var obj = response;
-//             if (obj.code == '200') {
-//                 // Toast.fire({
-//                 //     icon: 'success',
-//                 //     title: obj.message
-//                 // });
-//                 toastr.success(obj.message)
-//                 $('#modalAnggota').modal('hide')
-//                 table.ajax.reload();
-//                 tombol_reset()
-//             } else {
-//                 // Toast.fire({
-//                 //     icon: 'error',
-//                 //     title: obj.message,
-//                 // })
-//                 toastr.error(obj.message)
-//                 tombol_reset()
-//             }
-//         },
-//         error: function() {
-//             toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
-//         }
-//     });
-// }
+function pengajuanKeluar() {
+    var pinjaman = $('.total_pinjaman').val().replace(/\D[^\.]/g, "");;
+    if (pinjaman > 0) {
+        toastr.error('Proses pengajuan keluar gagal!<br>Anggota masih memiliki pinjaman yang belum lunas.');
+    } else {
+        toastr.success('Proses pengajuan keluar berhasil!<br>Proses selanjutnya menunggu persetujuan dari ketua.');
+    }
+}

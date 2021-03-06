@@ -29,6 +29,29 @@ if (!function_exists('tgl_indo')) {
     }
 }
 
+if (!function_exists('tgl_indo_simple')) {
+    function tgl_indo_simple($tgl, $time = '')
+    {
+        if ($time == '') {
+            $pecah = explode("-", $tgl);
+            $tanggal = $pecah[2];
+            $bulan = $pecah[1];
+            $tahun = $pecah[0];
+            return $tanggal . '/' . $bulan . '/' . $tahun;
+        } else {
+            $pecah = explode(" ", $tgl);
+            $date = $pecah[0];
+            $waktu = $pecah[1];
+
+            $date = explode("-", $date);
+            $tanggal = $date[2];
+            $bulan = bulan($date[1]);
+            $tahun = $date[0];
+            return $tanggal . ' ' . $bulan . ' ' . $tahun . ' ' . $waktu;
+        }
+    }
+}
+
 if (!function_exists('tgl_db')) {
     function tgl_db($tgl)
     {
