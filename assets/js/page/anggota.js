@@ -7,6 +7,8 @@ var Toast = Swal.mixin({
 });
 
 $(document).ready(function() {
+    $('.btn-hide').hide();
+
     table = $('#table').DataTable({
         "processing": true,
         "serverSide": true,
@@ -146,7 +148,7 @@ $("#form_tambah_anggota").validate({
     },
 });
 
-function pengajuanKeluar() {
+function pengajuanKeluar(id) {
     var pinjaman = $('.total_pinjaman').val().replace(/\D[^\.]/g, "");;
     if (pinjaman > 0) {
         toastr.error('Proses pengajuan keluar gagal!<br>Anggota masih memiliki pinjaman yang belum lunas.');
@@ -154,3 +156,16 @@ function pengajuanKeluar() {
         toastr.success('Proses pengajuan keluar berhasil!<br>Proses selanjutnya menunggu persetujuan dari ketua.');
     }
 }
+
+function editAnggota(id) {
+    // preventDefault();
+    $('.btn-show').hide();
+    $('.btn-hide').show();
+    $('.editable').prop("disabled", false);
+}
+
+$(".btn-batal").on("click", function() {
+    $('.btn-show').show();
+    $('.btn-hide').hide();
+    $('.editable').prop("disabled", true);
+});
