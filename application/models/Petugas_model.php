@@ -27,7 +27,7 @@ class Petugas_model extends MY_Model
                 }
             }
 
-            if ($this->input->post('nama_anggota')) {
+            if ($this->input->post('nama')) {
                 if ($i === 0) {
                     $this->db->like('nama', $_POST['nama']);
                 } else {

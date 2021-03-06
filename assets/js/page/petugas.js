@@ -43,32 +43,27 @@ $(document).ready(function() {
             { 'data': 'phone' },
             { 'data': 'tgl_masuk' },
             { 'data': 'level' },
-            // { 'data': 'status' },
         ],
     });
 
-    $('#level').on('change', function() {
-        table.ajax.reload();
-    });
+    // $('#level').on('change', function() {
+    //     table.ajax.reload();
+    // });
 
-    $('#nomor_petugas').keyup(function() {
-        table.ajax.reload();
-    });
+    // $('#nomor_petugas').keyup(function() {
+    //     table.ajax.reload();
+    // });
 
-    $('#nama').keyup(function() {
-        table.ajax.reload();
-    });
+    // $('#nama').keyup(function() {
+    //     table.ajax.reload();
+    // });
 
-    $(function() {
-        $('#tgl_masuk, #tgl_lahir').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
-    });
+    // $(function() {
+    //     $('#tgl_masuk, #tgl_lahir').datetimepicker({
+    //         format: 'DD/MM/YYYY'
+    //     });
+    // });
 });
-
-function reloadAjax() {
-    table.ajax.reload();
-}
 
 // $.validator.setDefaults({
 //     submitHandler: function() {

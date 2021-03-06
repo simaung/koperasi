@@ -26,7 +26,7 @@
                 <!-- TABLE: DATA ANGGOTA -->
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAnggota">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAnggota">
                             Tambah Anggota
                         </button>
                         <div class="card-tools">

@@ -29,7 +29,8 @@ class Petugas extends MY_Controller
         foreach ($list as $field) {
             $no++;
             $row = array();
-            $row[''] = $no;
+            $row['no'] = $no;
+            $row['id'] = $field->id;
             $row['nama'] = $field->nama;
             $row['phone'] = $field->phone;
             $row['tgl_masuk'] = $field->tgl_masuk;
@@ -45,8 +46,6 @@ class Petugas extends MY_Controller
             "data" => $data,
         );
         //output dalam format JSON
-        print_r($output);
-        die;
         echo json_encode($output);
     }
 }

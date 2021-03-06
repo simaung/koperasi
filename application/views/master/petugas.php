@@ -26,8 +26,9 @@
                 <!-- TABLE: DATA PETUGAS -->
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Tambah Petugas</a>
-
+                        <?php if ($this->authData['level'] == 'admin') { ?>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-primary float-left">Tambah Petugas</a>
+                        <?php } ?>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -61,9 +62,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode</th>
+                                        <th>Nomor Petugas</th>
                                         <th>Nama</th>
                                         <th>Phone</th>
+                                        <th>Tanggal Masuk</th>
                                         <th>Level</th>
                                     </tr>
                                 </thead>
