@@ -19,15 +19,16 @@ class Auth extends CI_Controller
     {
         $post = $this->input->post();
         $where = array(
-            'username'  => $post['username'],
+            'nik'  => $post['nik'],
             'password'  => MD5($post['password']),
+            'access_system'  => '1',
         );
         $user = $this->user_model->get_data('t_user', $where, true);
 
         if ($user) {
             $userData = array(
                 'id_user'   => $user[0]->id,
-                'username'  => $user[0]->username,
+                'nik'       => $user[0]->nik,
                 'nama'      => $user[0]->nama,
                 'level'     => $user[0]->level,
                 'logged_in' => TRUE

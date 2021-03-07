@@ -108,6 +108,8 @@
     if (!empty($js)) { ?>
         <script type="text/javascript">
             var base_url = "<?php echo base_url(); ?>";
+            var authData = "<?php echo $this->authData['level']; ?>";
+
 
             //Initialize Select2 Elements
             $('.select2').select2()

@@ -33,7 +33,7 @@
                             <span class="loginGagal">Username dan password tidak cocok</span>
                             <!-- <input type="text" name="username" placeholder="Username" class="input-field" autofocus required /> -->
                             <div class="form-group">
-                                <input type="text" class="form-control" name="username">
+                                <input type="text" class="form-control" name="nik" placeholder="NIK">
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" placeholder="Password" />
@@ -65,7 +65,7 @@
         $('.loginGagal').hide();
         $("#formLogin").validate({
             rules: {
-                username: "required",
+                nik: "required",
                 password: "required",
             },
             errorElement: 'span',

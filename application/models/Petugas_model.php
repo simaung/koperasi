@@ -3,7 +3,7 @@
 class Petugas_model extends MY_Model
 {
     public $table = 't_user'; //nama tabel dari database
-    public $column = array(null, 'id', 'nama', 'phone', 'tgl_masuk', 'level');
+    public $column = array(null, 'id', 'nik', 'nama', 'phone', 'tgl_masuk', 'level', 'access_system');
     public $order = array('id' => 'desc'); // default order 
 
     function __construct()
@@ -82,51 +82,34 @@ class Petugas_model extends MY_Model
         return $this->db->count_all_results();
     }
 
-    function tambah_anggota($id_petugas)
+    function tambah_petugas($id_petugas)
     {
         $post = $this->input->post();
 
-        $total_simpan =  rpToInt($post['simpanan']);
-        $pokok = $this->get_data('t_setting', array('name' => 'pokok'), true)[0]->nilai;
-        $wajib = $this->get_data('t_setting', array('name' => 'wajib'), true)[0]->nilai;
-
-        $sukarela = $total_simpan - $pokok - $wajib;
-
-        $data_anggota = array(
-            'nama_anggota'      => $post['nama_anggota'],
-            'alamat_anggota'    => $post['alamat'],
-            'jenis_kelamin'     => $post['jenis_kelamin'],
-            'pekerjaan'         => $post['pekerjaan'],
+        $data_petugas = array(
+            'nik'               => $post['nik'],
+            'nama'              => $post['nama_petugas'],
+            'tgl_entri'         => date('Y-m-d'),
             'tgl_masuk'         => tgl_db($post['tgl_masuk']),
-            'tgl_lahir'         => tgl_db($post['tgl_lahir']),
-            'tempat_lahir'      => $post['tempat_lahir'],
-            'telp'              => removeChar($post['telp']),
-            'petugas_id'        => $id_petugas,
+            'password'          => MD5('123456'),
+            // 'level'             => $post['level'],
+            // 'access_system'     => $post['access_system'],
         );
 
-        $this->db->insert('t_anggota', $data_anggota);
-        $anggota = $this->db->insert_id();
+        $this->db->insert('t_user', $data_petugas);
+        $petugas = $this->db->insert_id();
 
-        $data_simpanan = array(
-            'anggota_id'        => $anggota,
-            'jumlah_setor'      => $total_simpan,
-            'pokok'             => $pokok,
-            'wajib'             => $wajib,
-            'sukarela'          => $sukarela,
-            'petugas_id'        => $id_petugas,
-        );
 
-        $simpanan = $this->db->insert('t_simpan', $data_simpanan);
 
-        if ($simpanan) {
+        if ($petugas) {
             $result = array(
                 'code'          => '200',
-                'message'       => 'Tambah Anggota beserta simpanan berhasil!',
+                'message'       => 'Tambah petugas berhasil!',
             );
         } else {
             $result = array(
                 'code'          => '400',
-                'message'       => 'Tambah jamaah beserta tabungan gagal!',
+                'message'       => 'Tambah petugas gagal!',
             );
         }
         return $result;
