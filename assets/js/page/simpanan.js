@@ -58,6 +58,14 @@ $(document).ready(function() {
                 className: "text-right"
             },
             {
+                'data': 'jumlah_angsuran',
+                className: "text-right"
+            },
+            {
+                'data': 'jasa',
+                className: "text-right"
+            },
+            {
                 'data': 'jumlah_setor',
                 className: "text-right"
             },
@@ -166,6 +174,7 @@ $("#form_tambah_simpanan").validate({
         },
         angsuran: {
             required: true,
+            min: 0,
         },
         sukarela: {
             required: true,

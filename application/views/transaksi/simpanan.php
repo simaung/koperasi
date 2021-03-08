@@ -69,6 +69,8 @@
                                         <th>Pokok</th>
                                         <th>Wajib</th>
                                         <th>Sukarela</th>
+                                        <th>Angsuran</th>
+                                        <th>Jasa</th>
                                         <th>Jumlah Setor</th>
                                     </tr>
                                 </thead>

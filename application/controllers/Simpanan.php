@@ -63,6 +63,8 @@ class Simpanan extends MY_Controller
             $row['pokok'] = rp($field->pokok);
             $row['wajib'] = rp($field->wajib);
             $row['sukarela'] = rp($field->sukarela);
+            $row['jumlah_angsuran'] = rp($field->jumlah_angsuran);
+            $row['jasa'] = rp($field->jasa);
             // $row['tgl_masuk'] = tgl_indo($field->tgl_masuk);
             // $row['status'] = $field->status;
 

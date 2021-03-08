@@ -15,7 +15,9 @@ class Simpanan_model extends MY_Model
     {
         $this->db->select($this->column);
         $this->db->select('t_anggota.nama_anggota');
+        $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
         $this->db->join('t_anggota', $this->table . '.anggota_id = t_anggota.id');
+        $this->db->join('t_angsuran', $this->table . '.id = t_angsuran.simpan_id', 'left');
         $this->db->from($this->table);
         $i = 0;
 

@@ -108,6 +108,7 @@
             } else {
                 $('#angsuran').prop('disabled', true);
                 $('#angsuran').val(angsuran);
+                $('#angsuran_hidden').val(angsuran);
             }
         } else {
             var sukarela = setor - wajib;
