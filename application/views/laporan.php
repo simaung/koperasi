@@ -127,48 +127,56 @@
         <div class="col-md-12 rptPinjaman d-none">
             <div class="card-body">
                 <h4>Laporan Pinjaman</h4>
-                <div class="row">
-                    <div class="col-md-3">
-                        <select class="form-control" id="pilihLaporan">
-                            <option>-- Status Pinjaman -- </option>
-                            <option value="pending">Pending</option>
-                            <option value="terima">Terima</option>
-                            <option value="tolak">Tolak</option>
-                        </select>
+                <form action="<?php echo base_url('laporan/pinjaman'); ?>" method="post" target="_blank">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-control" name="status_pengajuan">
+                                <option value="">-- Status Pengajuan -- </option>
+                                <option value="pending">Pending</option>
+                                <option value="terima">Terima</option>
+                                <option value="tolak">Tolak</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" name="status">
+                                <option value="">-- Status Pinjaman -- </option>
+                                <option value="belum">Belum Lunas</option>
+                                <option value="lunas">Lunas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control" name="bulan">
+                                <option value="">-- Bulan -- </option>
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                        <?php $tahun = date('Y'); ?>
+                        <div class="col-md-2">
+                            <select class="form-control" name="tahun">
+                                <?php for ($i = 1; $i < 4; $i++) { ?>
+                                    <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                <?php
+                                    $tahun -= 1;
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-control" id="pilihLaporan">
-                            <option>-- Bulan -- </option>
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">Mei</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <?php $tahun = date('Y'); ?>
-                    <div class="col-md-3">
-                        <select class="form-control" id="pilihLaporan">
-                            <option>-- Tahun -- </option>
-                            <?php for ($i = 1; $i < 4; $i++) { ?>
-                                <option value="aktif"><?php echo $tahun; ?></option>
-                            <?php
-                                $tahun -= 1;
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

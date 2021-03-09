@@ -105,6 +105,17 @@ class Pinjaman_model extends MY_Model
         return $result;
     }
 
+    function get_data_pinjaman($where)
+    {
+        $this->db->select('a.*');
+        $this->db->select('b.id as anggota_id, b.nama_anggota');
+        $this->db->where($where);
+        $this->db->join('t_anggota b', 'a.anggota_id = b.id');
+        $this->db->order_by('a.tgl_entry', 'desc');
+        $query = $this->db->get('t_pinjam a');
+        return $query->result();
+    }
+
     function get_data_anggota($id)
     {
         $this->db->select('*');

@@ -24,7 +24,7 @@
 </table>
 <hr>
 <br>
-<h6 style="text-align:right">Dicetak : <?php echo tgl_indo(date('Y-m-d')); ?></h6>
+<h6 style="text-align:right">Dicetak : <?php echo tgl_indo(date('Y-m-d H:i:s'), 'time'); ?></h6>
 <h2 style="text-align:center">Laporan Anggota</h2>
 <?php if (empty($anggota)) { ?>
     <p>Data kosong...</p>
@@ -46,7 +46,7 @@
                 <td style="border: 1px solid black"><?php echo ucwords($row->nama_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo ucfirst($row->alamat_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo tgl_indo($row->tgl_masuk); ?></td>
-                <td style="border: 1px solid black"><?php echo $row->status; ?></td>
+                <td style="border: 1px solid black;text-align:center"><?php echo strtoupper($row->status); ?></td>
             </tr>
         <?php $i++;
         } ?>

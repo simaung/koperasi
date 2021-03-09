@@ -24,7 +24,7 @@
 </table>
 <hr>
 <br>
-<h6 style="text-align:right">Dicetak : <?php echo tgl_indo(date('Y-m-d')); ?></h6>
+<h6 style="text-align:right">Dicetak : <?php echo tgl_indo(date('Y-m-d H:i:s'), 'time'); ?></h6>
 <h2 style="text-align:center">Laporan Simpanan</h2>
 <?php if (empty($simpanan)) { ?>
     <p>Data kosong...</p>

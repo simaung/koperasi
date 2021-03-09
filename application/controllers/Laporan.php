@@ -85,4 +85,40 @@ class Laporan extends MY_Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
+    function pinjaman()
+    {
+        $this->load->model('pinjaman_model');
+        $post = $this->input->post();
+        $where = array();
+
+        if (!empty($post['status'])) {
+            $where['status'] = $post['status'];
+        }
+        if (!empty($post['status_pengajuan'])) {
+            $where['status_pengajuan'] = $post['status_pengajuan'];
+        }
+        if (!empty($post['bulan'])) {
+            $where['MONTH(tgl_entry)'] = $post['bulan'];
+        }
+        if (!empty($post['tahun'])) {
+            $where['YEAR(tgl_entry)'] = $post['tahun'];
+        }
+
+        $data_pinjaman = $this->pinjaman_model->get_data_pinjaman($where);
+
+        $nama_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'koperasi'), true);
+        $alamat_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'alamat'), true);
+        $nama_koperasi    = $nama_koperasi[0]->value;
+        $alamat_koperasi  = $alamat_koperasi[0]->value;
+
+        $data['nama_koperasi']      = $nama_koperasi;
+        $data['alamat_koperasi']    = $alamat_koperasi;
+        $data['pinjaman'] = $data_pinjaman;
+
+        $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+        $html = $this->load->view('laporan/pinjaman', $data, true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
 }
