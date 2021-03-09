@@ -128,4 +128,17 @@ class Simpanan_model extends MY_Model
         }
         return $result;
     }
+
+    function get_data_simpanan($where)
+    {
+        $this->db->select('a.*');
+        $this->db->select('t_anggota.id as anggota_id, t_anggota.nama_anggota');
+        $this->db->where($where);
+        $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
+        $this->db->join('t_anggota', 'a.anggota_id = t_anggota.id');
+        $this->db->join('t_angsuran', 'a.id = t_angsuran.simpan_id', 'left');
+        $this->db->order_by('a.created_at', 'desc');
+        $query = $this->db->get('t_simpan a');
+        return $query->result();
+    }
 }

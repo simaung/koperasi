@@ -70,6 +70,14 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item <?php echo ($menu == 'laporan') ? 'menu-open' : ''; ?>">
+          <a href="<?php echo base_url('laporan'); ?>" class="nav-link <?php echo ($menu == 'laporan') ? 'active' : ''; ?>">
+            <i class="nav-icon fa fa-calculator"></i>
+            <p>
+              Laporan
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
