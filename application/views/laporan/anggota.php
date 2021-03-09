@@ -9,17 +9,17 @@
         border: 1px solid black;
     } */
 </style>
-<table>
+<table align="center">
     <tr>
-        <td rowspan="2">
+        <td>
             <img src="<?= base_url('assets'); ?>/img/logo_kop.gif" style="opacity: .8" width="80px">
         </td>
         <td width="20px"></td>
-        <td><b><?php echo $nama_koperasi; ?></b></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><b><?php echo $alamat_koperasi; ?></b></td>
+        <td style="text-align:center;padding:10px;line-height: 1.8;">
+            <b><?php echo $nama_koperasi; ?></b>
+            <br>
+            <span style="font-size:10px;color:#696969"><?php echo $alamat_koperasi; ?></span>
+        </td>
     </tr>
 </table>
 <hr>
