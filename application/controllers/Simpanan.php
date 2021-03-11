@@ -30,10 +30,17 @@ class Simpanan extends MY_Controller
     {
         $this->load->model('anggota_model');
         $wajib  = $this->simpanan_model->get_data('t_setting', array('name' => 'wajib'), 'true');
+
         $data_anggota = $this->anggota_model->get_data_anggota($id);
+        $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => date('m'), 'pokok >=' => 0), true);
+        if ($get_wajib) {
+            $wajib = 0;
+        } else {
+            $wajib = $wajib->nilai;
+        }
 
         $data = array(
-            'wajib'         => $wajib->nilai,
+            'wajib'         => $wajib,
             'data_anggota'  => $data_anggota,
         );
 
