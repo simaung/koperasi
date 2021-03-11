@@ -72,6 +72,8 @@ $(document).ready(function() {
                 createdCell: function(td, rowData) {
                     if (rowData.status_ambil == 'pending' && rowData.status_pengajuan == 'terima') {
                         var html = '<a class="btn btn-success" data-toggle="modal" onclick="ambil_pinjaman(' + rowData.id + ')"><i class="ion-checkmark"></i></a>'
+                    } else if (rowData.status_pengajuan == 'pending') {
+                        var html = '-'
                     } else {
                         var html = '<p class="text-success">Sudah</p>'
                     }
