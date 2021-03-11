@@ -68,6 +68,8 @@
                                         <th>Alamat</th>
                                         <th>Tanggal Masuk</th>
                                         <th>Status</th>
+                                        <th>Total Tabungan</th>
+                                        <th>Total Pinjaman</th>
                                     </tr>
                                 </thead>
                                 <tbody>

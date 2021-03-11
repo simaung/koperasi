@@ -35,6 +35,8 @@ class Anggota extends MY_Controller
             $row['alamat_anggota'] = $field->alamat_anggota;
             $row['tgl_masuk'] = tgl_indo($field->tgl_masuk);
             $row['status'] = $field->status;
+            $row['total_simpanan'] = rp($field->total_tabungan);
+            $row['total_pinjaman'] = rp($field->total_pinjam - $field->jumlah_angsuran);
 
             $data[] = $row;
         }

@@ -2,8 +2,12 @@
 
 class Anggota_model extends MY_Model
 {
-    public $table = 't_anggota'; //nama tabel dari database
-    public $column = array(null, 'id', 'nama_anggota', 'alamat_anggota', 'tgl_masuk', 'status');
+    // public $table = 't_anggota'; //nama tabel dari database
+    // public $column = array(null, 'id', 'nama_anggota', 'alamat_anggota', 'tgl_masuk', 'status');
+    // public $order = array('id' => 'desc'); // default order 
+
+    public $table = 'v_tabungan_anggota'; //nama tabel dari database
+    public $column = array(null, 'id', 'nama_anggota', 'alamat_anggota', 'tgl_masuk', 'status', 'total_tabungan', 'total_pinjam', 'jumlah_angsuran');
     public $order = array('id' => 'desc'); // default order 
 
     function __construct()

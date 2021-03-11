@@ -50,6 +50,8 @@ $(document).ready(function() {
             { 'data': 'alamat_anggota' },
             { 'data': 'tgl_masuk' },
             { 'data': 'status' },
+            { 'data': 'total_simpanan', className: "text-right" },
+            { 'data': 'total_pinjaman', className: "text-right" },
         ],
     });
 
