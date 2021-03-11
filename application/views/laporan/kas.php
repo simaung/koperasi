@@ -32,7 +32,7 @@
     <table border="1" align="center" width="100%" style="border: 1px solid black">
         <tr style="border: 1px solid black">
             <th>No</th>
-            <th width="150px">Tanggal Transaksi</th>
+            <th width="200px">Tanggal Transaksi</th>
             <th>Tipe transaksi</th>
             <th>Pemasukan</th>
             <th>Pengeluaran</th>

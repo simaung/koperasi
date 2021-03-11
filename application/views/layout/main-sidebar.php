@@ -58,7 +58,13 @@
             <li class="nav-item">
               <a href="<?php echo base_url('simpanan'); ?>" class="nav-link <?php echo ($this->path == 'simpanan') ? 'active' : ''; ?>">
                 <i class="far fa-save nav-icon"></i>
-                <p>Simpanan</p>
+                <p>Tambah Simpanan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('pengambilan'); ?>" class="nav-link <?php echo ($this->path == 'pengambilan') ? 'active' : ''; ?>">
+                <i class="fas fa-dollar-sign nav-icon"></i>
+                <p>Ambil Simpanan</p>
               </a>
             </li>
             <li class="nav-item">

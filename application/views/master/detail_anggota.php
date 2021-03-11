@@ -23,8 +23,19 @@
         <!-- Main row -->
         <div class="row">
             <div class="col-12">
+
+                <?php if ($anggota->status == 'keluar') { ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <h5><i class="icon fas fa-ban"></i> Anggota nonaktif!</h5>
+                        Anggota ini sudah keluar dari keanggotaan.
+                    </div>
+                <?php } ?>
+
                 <div class="form-group float-right btn-show">
-                    <button class="btn btn-sm btn-danger" onclick="pengajuanKeluar(<?php echo $anggota->id; ?>)">Pengajuan Keluar</button>
+                    <?php if ($anggota->status != 'keluar') { ?>
+                        <button class="btn btn-sm btn-danger" onclick="pengajuanKeluar(<?php echo $anggota->id; ?>)">Pengajuan Keluar</button>
+                    <?php } ?>
+
                     <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Edit Anggota</button>
                 </div>
                 <div class="form-group float-right btn-hide">

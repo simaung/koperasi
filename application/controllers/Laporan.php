@@ -149,12 +149,12 @@ class Laporan extends MY_Controller
         $data['alamat_koperasi']    = $alamat_koperasi;
         $data['kas'] = $data_kas;
 
-        $html = $this->load->view('laporan/kas', $data);
+        // $html = $this->load->view('laporan/kas', $data);
 
 
-        // $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
-        // $html = $this->load->view('laporan/pinjaman', $data, true);
-        // $mpdf->WriteHTML($html);
-        // $mpdf->Output();
+        $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+        $html = $this->load->view('laporan/kas', $data, true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 }
