@@ -21,9 +21,9 @@ class Anggota extends MY_Controller
         $this->template->load(array(), $content);
     }
 
-    function get_data_anggota()
+    function get_data_anggota($status = '')
     {
-        $list = $this->anggota_model->get_datatables();
+        $list = $this->anggota_model->get_datatables($status);
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
@@ -42,7 +42,7 @@ class Anggota extends MY_Controller
         $output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->anggota_model->count_all(),
-            "recordsFiltered" => $this->anggota_model->count_filtered(),
+            "recordsFiltered" => $this->anggota_model->count_filtered($status),
             "data" => $data,
         );
         //output dalam format JSON

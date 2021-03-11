@@ -11,13 +11,17 @@ class Anggota_model extends MY_Model
         parent::__construct();
     }
 
-    private function _get_table_query()
+    private function _get_table_query($status)
     {
         $this->db->select($this->column);
         $this->db->from($this->table);
         $i = 0;
 
         foreach ($this->column as $item) {
+
+            if ($status != '') {
+                $this->db->where('status', $status);
+            }
 
             if ($this->input->post('nomor_anggota')) {
                 if ($i === 0) {
@@ -52,18 +56,18 @@ class Anggota_model extends MY_Model
         }
     }
 
-    function get_datatables()
+    function get_datatables($status)
     {
-        $this->_get_table_query();
+        $this->_get_table_query($status);
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
         $query = $this->db->get();
         return $query->result();
     }
 
-    function count_filtered()
+    function count_filtered($status)
     {
-        $this->_get_table_query();
+        $this->_get_table_query($status);
         $query = $this->db->get();
         return $query->num_rows();
     }

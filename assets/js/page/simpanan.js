@@ -77,7 +77,7 @@ $(document).ready(function() {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'anggota/get_data_anggota',
+            "url": base_url + 'anggota/get_data_anggota/aktif',
             "type": "POST",
             'data': function(data) {
                 data.nomor_anggota = $('#nomorAnggota').val();
