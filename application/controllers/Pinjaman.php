@@ -38,6 +38,7 @@ class Pinjaman extends MY_Controller
             $row['lama_angsuran'] = $field->lama_angsuran . ' bulan';
             $row['bunga'] = $field->bunga . '%';
             $row['status_pengajuan'] = $field->status_pengajuan;
+            $row['status_ambil'] = $field->status_ambil;
             $row['tgl_persetujuan'] = ($field->tgl_persetujuan != null) ? tgl_indo($field->tgl_persetujuan, 'time') : '';
 
             $data[] = $row;
@@ -129,5 +130,11 @@ class Pinjaman extends MY_Controller
         $pengajuan = $this->pinjaman_model->update_data('t_pinjam', $set, $where);
         print_r($pengajuan);
         die;
+    }
+
+    function ambil_pinjaman()
+    {
+        $ambil = $this->pinjaman_model->ambil_pinjaman();
+        echo json_encode($ambil);
     }
 }

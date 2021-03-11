@@ -66,6 +66,18 @@ $(document).ready(function() {
                     $(td).html(html)
                 }
             },
+            {
+                'data': null,
+                className: "text-center",
+                createdCell: function(td, rowData) {
+                    if (rowData.status_ambil == 'pending' && rowData.status_pengajuan == 'terima') {
+                        var html = '<a class="btn btn-success" data-toggle="modal" onclick="ambil_pinjaman(' + rowData.id + ')"><i class="ion-checkmark"></i></a>'
+                    } else {
+                        var html = '<p class="text-success">Sudah</p>'
+                    }
+                    $(td).html(html)
+                }
+            },
         ],
     });
 
@@ -196,5 +208,22 @@ function approvePengajuan(status, id) {
             window.location.href = base_url + 'pinjaman';
         },
         error: function() {}
+    });
+}
+
+function ambil_pinjaman(id) {
+    $.ajax({
+        type: 'POST',
+        url: base_url + 'pinjaman/ambil_pinjaman/',
+        data: { id: id },
+        dataType: 'json',
+        success: function(response) {
+            var obj = response;
+            toastr.success(obj.message)
+            window.location.href = base_url + 'pinjaman';
+        },
+        error: function(response) {
+            toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
+        }
     });
 }

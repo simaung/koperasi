@@ -72,6 +72,7 @@
                                         <th>Bunga</th>
                                         <th>Tanggal Persetujuan</th>
                                         <th>Status</th>
+                                        <th>Ambil Pinjaman</th>
                                     </tr>
                                 </thead>
                                 <tbody>

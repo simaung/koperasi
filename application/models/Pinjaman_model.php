@@ -3,7 +3,7 @@
 class Pinjaman_model extends MY_Model
 {
     public $table = 't_pinjam'; //nama tabel dari database
-    public $column = array(null, 't_pinjam.id', 'anggota_id', 'total_pinjam', 'lama_angsuran', 'bunga', 'tgl_entry', 't_pinjam.status', 'status_pengajuan', 'tgl_persetujuan');
+    public $column = array(null, 't_pinjam.id', 'anggota_id', 'total_pinjam', 'lama_angsuran', 'bunga', 'tgl_entry', 't_pinjam.status', 'status_pengajuan', 'status_ambil', 'tgl_persetujuan');
     public $order = array('t_pinjam.id' => 'desc'); // default order 
 
     function __construct()
@@ -122,5 +122,36 @@ class Pinjaman_model extends MY_Model
         $this->db->where('id', $id);
         $query = $this->db->get('v_tabungan_anggota');
         return $query->row();
+    }
+
+    function ambil_pinjaman()
+    {
+        $post = $this->input->post();
+
+        $this->update_data('t_pinjam', array('status_ambil' => 'ya'), array('id' => $post['id']));
+
+        $get_pinjam = $this->get_data('t_pinjam', array('id' => $post['id']), 'true');
+
+        $data_ambil = array(
+            'pinjam_id'     => $get_pinjam->id,
+            'anggota_id'    => $get_pinjam->anggota_id,
+            'total_ambil'   => $get_pinjam->total_pinjam,
+        );
+
+        $this->db->insert('t_pengambilan', $data_ambil);
+        $ambil = $this->db->insert_id();
+
+        if ($ambil) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Tambah pengajuan pinjaman berhasil!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Tambah pengajuan pinjaman gagal!',
+            );
+        }
+        return $result;
     }
 }
