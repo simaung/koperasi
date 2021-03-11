@@ -122,13 +122,13 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Jumlah Simpanan : </label>
-                        <input type="text" class="form-control uang" name="simpanan" value="<?php echo $anggota->total_tabungan; ?>" disabled>
+                        <input type="text" class="form-control uang" name="simpanan" value="<?php echo rp($anggota->total_tabungan); ?>" disabled>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Jumlah Pinjaman : </label>
-                        <input type="text" class="form-control uang total_pinjaman" name="pinjaman" value="<?php echo $anggota->total_pinjam - $anggota->jumlah_angsuran; ?>" disabled>
+                        <input type="text" class="form-control uang total_pinjaman" name="pinjaman" value="<?php echo rp($anggota->total_pinjam - $anggota->jumlah_angsuran); ?>" disabled>
                     </div>
                 </div>
             </div>
