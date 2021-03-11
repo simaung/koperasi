@@ -112,6 +112,11 @@ class Simpanan_model extends MY_Model
                 'sisa_pinjaman'     => $sisa_pinjaman,
             );
 
+            if ($sisa_pinjaman <= 0) {
+                $this->db->where('id', $post['pinjam_id']);
+                $this->db->update('t_pinjam', array('status' => 'lunas'));
+            }
+
             $angsuran = $this->db->insert('t_angsuran', $data_angsuran);
         }
 

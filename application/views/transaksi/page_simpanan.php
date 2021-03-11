@@ -102,13 +102,18 @@
 
         if (sisa_pinjaman > 0) {
             if (setor > min_angsuran) {
-                $('#angsuran').prop('disabled', false);
-                $('#angsuran').val(angsuran);
-
-                $('#angsuran_hidden').val(angsuran);
-
-                var sukarela = setor - min_angsuran - angsuran;
-                $('.sukarela').val(sukarela);
+                if (setor > sisa_pinjaman) {
+                    $('#angsuran').val(sisa_pinjaman);
+                    $('#angsuran_hidden').val(sisa_pinjaman);
+                    var sukarela = setor - min_angsuran - sisa_pinjaman;
+                    $('.sukarela').val(sukarela);
+                } else {
+                    $('#angsuran').prop('disabled', false);
+                    $('#angsuran').val(angsuran);
+                    $('#angsuran_hidden').val(angsuran);
+                    var sukarela = setor - min_angsuran - angsuran;
+                    $('.sukarela').val(sukarela);
+                }
             } else {
                 $('#angsuran').prop('disabled', true);
                 $('#angsuran').val(angsuran);
