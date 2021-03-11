@@ -184,10 +184,12 @@ function getDataPengajuan(id) {
 }
 
 function approvePengajuan(status, id) {
+    total_pinjaman = $('#total_pinjaman').val();
+    total_pinjaman = total_pinjaman.replace(/\D+/g, '');
     $.ajax({
         type: 'POST',
         url: base_url + 'pinjaman/approve_pengajuan/',
-        data: { status: status, id: id },
+        data: { status: status, id: id, total_pinjaman: total_pinjaman },
         dataType: 'json',
         success: function(response) {
             // $('#modalPengajuan').modal('hide')

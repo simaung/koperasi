@@ -8,7 +8,7 @@ class Pinjaman extends MY_Controller
     {
         parent::__construct();
         $this->load->model('pinjaman_model');
-        
+
         $this->check_logged();
         $this->authData = $this->session->userdata('auth_data');
     }
@@ -122,6 +122,7 @@ class Pinjaman extends MY_Controller
 
         $set['status_pengajuan'] = $post['status'];
         $set['tgl_persetujuan'] = date('Y-m-d H:i:s');
+        $set['total_pinjam'] = $post['total_pinjaman'];
 
         $where['id']    = $post['id'];
 

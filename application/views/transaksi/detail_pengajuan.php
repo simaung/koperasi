@@ -23,7 +23,7 @@
                 <div class="form-group row">
                     <label class="col-4 col-form-label">Total Pinjaman</label>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-lg uang" value="<?php echo rp($pengajuan->total_pinjam); ?>" disabled style="text-align:right">
+                        <input type="text" class="form-control form-control-lg uang" value="<?php echo rp($pengajuan->total_pinjam); ?>" style="text-align:right" id="total_pinjaman">
                     </div>
                 </div>
                 <div class="form-group row">
