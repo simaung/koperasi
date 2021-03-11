@@ -121,4 +121,40 @@ class Laporan extends MY_Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
+    function kas()
+    {
+        $this->load->model('pinjaman_model');
+        $post = $this->input->post();
+        $where = array();
+
+        if (!empty($post['status'])) {
+            $where['status'] = $post['status'];
+        }
+        if (!empty($post['bulan'])) {
+            $where['MONTH(tgl_entry)'] = $post['bulan'];
+        }
+        if (!empty($post['tahun'])) {
+            $where['YEAR(tgl_entry)'] = $post['tahun'];
+        }
+
+        $data_kas = $this->pinjaman_model->get_data_kas($where);
+
+        $nama_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'koperasi'), true);
+        $alamat_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'alamat'), true);
+        $nama_koperasi    = $nama_koperasi[0]->value;
+        $alamat_koperasi  = $alamat_koperasi[0]->value;
+
+        $data['nama_koperasi']      = $nama_koperasi;
+        $data['alamat_koperasi']    = $alamat_koperasi;
+        $data['kas'] = $data_kas;
+
+        $html = $this->load->view('laporan/kas', $data);
+
+
+        // $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+        // $html = $this->load->view('laporan/pinjaman', $data, true);
+        // $mpdf->WriteHTML($html);
+        // $mpdf->Output();
+    }
 }

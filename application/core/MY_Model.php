@@ -64,4 +64,40 @@ class MY_Model extends CI_Model
             return FALSE;
         }
     }
+
+    function get_data_kas($where)
+    {
+        $sql = "
+        select * from
+        (
+            select 
+            'kredit' as type,
+            type as description,
+            total_ambil as amount,
+            b.id as nomor_anggota, b.nama_anggota,
+            tgl_ambil as tgl_transaksi
+            from t_pengambilan a
+            left join t_anggota b on a.anggota_id = b.id
+
+            union all
+
+            select
+            'debet' as type,
+            'Simpanan' as description,
+            jumlah_setor as amount,
+            b.id as nomor_anggota, b.nama_anggota,
+            created_at as tgl_transaksi
+            from t_simpan a
+            left join t_anggota b on a.anggota_id = b.id
+        ) as trans_kas        
+        order by trans_kas.tgl_transaksi ASC;
+        ";
+
+        $query = $this->db->query($sql)->result();
+        if ($query) {
+            return $query;
+        } else {
+            return FALSE;
+        }
+    }
 }

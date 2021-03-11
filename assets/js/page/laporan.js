@@ -3,6 +3,7 @@ $(document).ready(function() {
         $('.rptAnggota').addClass('d-none');
         $('.rptSimpanan').addClass('d-none');
         $('.rptPinjaman').addClass('d-none');
+        $('.rptKasKeuangan').addClass('d-none');
     }
     $('#pilihLaporan').on("change", function() {
         hideRpt();
@@ -13,6 +14,8 @@ $(document).ready(function() {
             $('.rptSimpanan').removeClass('d-none');
         } else if (opt == 'pinjaman') {
             $('.rptPinjaman').removeClass('d-none');
+        } else if (opt == 'kas') {
+            $('.rptKasKeuangan').removeClass('d-none');
         }
     });
 

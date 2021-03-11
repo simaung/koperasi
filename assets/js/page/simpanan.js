@@ -137,12 +137,19 @@ $(document).ready(function() {
 
 });
 
+function modalSimpanan() {
+    $("#data-anggota").html('');
+    $("#nomorAnggotaSearch").val('');
+    $('#modalSimpanan').modal('show');
+}
+
 function getDataAnggota() {
     table_anggota.ajax.reload();
     $('#modalAnggota').modal('show')
 }
 
 function getAnggota(id) {
+    $("#data-anggota").html('');
     $.ajax({
         type: 'POST',
         url: base_url + 'simpanan/get_data_anggota/' + id,
