@@ -1,5 +1,5 @@
 <div class="row">
-    <?php if ($data_anggota->total_pinjam > 0) { ?>
+    <?php if ($data_anggota->total_pinjam - $data_anggota->jumlah_angsuran > 0) { ?>
         <div class="col-12">
             <div class="col-12">
                 <h3>Tidak bisa mengambil simpanan</h3>
