@@ -143,56 +143,6 @@
 </div>
 <!-- /.modal -->
 
-<div class="modal fade" id="modalAmbilSimpanan" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Ambil Simpanan</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="form_ambil_simpanan" method="post" action="#">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Tanggal Masuk :</label>
-                                    <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
-                                        <input type="text" class="form-control" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo date('d/m/y'); ?>" disabled />
-                                        <div class="input-group-append">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Nomor Anggota :</label>
-                                    <div class="input-group date" data-target-input="nearest">
-                                        <input type="text" class="form-control" id="nomorAnggotaSearch" disabled>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="data-anggota">
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-</div>
-<!-- /.modal -->
-
 <div class="modal fade" id="modalAnggota" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
