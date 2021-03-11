@@ -36,7 +36,7 @@
                         <button class="btn btn-sm btn-danger" onclick="pengajuanKeluar(<?php echo $anggota->id; ?>)">Pengajuan Keluar</button>
                     <?php } ?>
 
-                    <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Edit Anggota</button>
+                    <!-- <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Edit Anggota</button> -->
                 </div>
                 <div class="form-group float-right btn-hide">
                     <button class="btn btn-sm btn-danger btn-batal">Batal</button>
