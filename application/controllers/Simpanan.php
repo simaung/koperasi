@@ -38,7 +38,15 @@ class Simpanan extends MY_Controller
         if ($get_wajib) {
             $wajib = 0;
         } else {
-            $wajib = $wajib->nilai;
+            $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null), 'true', 'id', 'desc');
+
+            $date = date("Y-m-d");
+            $timeStart = strtotime($last_wajib->created_at);
+            $timeEnd = strtotime("$date");
+            $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
+            $numBulan += date("m", $timeEnd) - date("m", $timeStart);
+
+            $wajib = $wajib->nilai * $numBulan;
         }
 
         $data = array(
