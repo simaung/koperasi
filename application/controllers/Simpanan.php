@@ -16,11 +16,13 @@ class Simpanan extends MY_Controller
     function index()
     {
         $anggota = $this->simpanan_model->get_data('t_anggota');
+        $wajib  = $this->simpanan_model->get_data('t_setting', array('name' => 'wajib'), 'true');
 
         $data = array(
             'menu'      => 'transaksi',
             'js'        => '/assets/js/page/simpanan.js',
             'anggota'   => $anggota,
+            'wajib'     => $wajib->nilai,
         );
         $content = $this->load->view('transaksi/simpanan', $data, TRUE);
         $this->template->load(array(), $content);
@@ -91,6 +93,12 @@ class Simpanan extends MY_Controller
     function tambah_simpanan()
     {
         $data = $this->simpanan_model->tambah_simpanan($this->authData['id_user']);
+        echo json_encode($data);
+    }
+
+    function bayar_wajib()
+    {
+        $data = $this->simpanan_model->bayar_wajib($this->authData['id_user']);
         echo json_encode($data);
     }
 }

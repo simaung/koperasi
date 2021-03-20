@@ -146,4 +146,29 @@ class Simpanan_model extends MY_Model
         $query = $this->db->get('t_simpan a');
         return $query->result();
     }
+
+    function bayar_wajib($id_petugas)
+    {
+        $post = $_POST;
+
+        $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null), 'true', 'id', 'desc');
+        $last_wajib = $last_wajib->created_at;
+        for ($i = 1; $i <= $post['bulan']; $i++) {
+
+            $data_simpan = array(
+                'anggota_id'        => $post['id_anggota'],
+                'created_at'        => date('Y-m-01', strtotime('+' . $i . ' month', strtotime($last_wajib))),
+                'wajib'             => $post['nilai_wajib'],
+                'jumlah_setor'      => $post['nilai_wajib'],
+                'petugas_id'        => $id_petugas,
+            );
+            $this->db->insert('t_simpan', $data_simpan);
+        }
+
+        $result = array(
+            'code'          => '200',
+            'message'       => 'Tambah wajib berhasil!',
+        );
+        return $result;
+    }
 }

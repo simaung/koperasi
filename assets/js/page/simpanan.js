@@ -7,6 +7,14 @@ var Toast = Swal.mixin({
 });
 
 $(document).ready(function() {
+    jml_setor = $('.bulan').val() * $('.nilai_wajib').val();
+    $('.jml_setor').val(jml_setor);
+
+    $('.bulan').on('input', function() {
+        jml_setor = $(this).val() * $('.nilai_wajib').val();
+        $('.jml_setor').val(jml_setor);
+    });
+
     table = $('#table').DataTable({
         "processing": true,
         "serverSide": true,
@@ -139,8 +147,14 @@ $(document).ready(function() {
 
 function modalSimpanan() {
     $("#data-anggota").html('');
-    $("#nomorAnggotaSearch").val('');
+    $(".nomorAnggotaSearch").val('');
     $('#modalSimpanan').modal('show');
+}
+
+function modalWajib() {
+    $("#data-anggota").html('');
+    $(".nomorAnggotaSearch").val('');
+    $('#modalWajib').modal('show');
 }
 
 function getDataAnggota() {
@@ -157,8 +171,9 @@ function getAnggota(id) {
         success: function(response) {
             $("#data-anggota").html(response.view);
             $('#modalAnggota').modal('hide')
-            $('#nomorAnggotaSearch').val(id + ' - ' + response.nama);
+            $('.nomorAnggotaSearch').val(id + ' - ' + response.nama);
             $('#nomorAnggota').val('');
+            $('.nomorAnggota').val(id);
         },
         error: function() {
             $("#data-anggota").html('<a>papa</a>');
@@ -208,6 +223,52 @@ $("#form_tambah_simpanan").validate({
                     table.ajax.reload();
                     tombol_reset()
                     $('#form_tambah_simpanan').trigger("reset");
+                } else {
+                    toastr.error(obj.message)
+                    tombol_reset()
+                }
+            },
+            error: function() {
+                toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
+            }
+        });
+    }
+});
+
+$("#form_bayar_wajib").validate({
+    lang: 'id',
+    ignore: [],
+    rules: {
+        id_anggota: {
+            required: true,
+        },
+        bulan: {
+            required: true,
+        },
+        wajib: {
+            required: true,
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    submitHandler: function() {
+        // tombol_loading();
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'simpanan/bayar_wajib',
+            dataType: 'json',
+            data: $("#form_bayar_wajib").serialize(),
+            success: function(response) {
+                var obj = response;
+                if (obj.code == '200') {
+                    toastr.success(obj.message)
+                    $('#modalWajib').modal('hide')
+                    table.ajax.reload();
+                    tombol_reset()
+                    $('#form_bayar_wajib').trigger("reset");
                 } else {
                     toastr.error(obj.message)
                     tombol_reset()

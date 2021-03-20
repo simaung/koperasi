@@ -29,6 +29,9 @@
                         <button type="button" class="btn btn-primary" onclick="modalSimpanan()">
                             Tambah Simpanan
                         </button>
+                        <button type="button" class="btn btn-warning" onclick="modalWajib()">
+                            Bayar wajib
+                        </button>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -123,7 +126,8 @@
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Nomor Anggota :</label>
                                     <div class="input-group date" data-target-input="nearest">
-                                        <input type="text" class="form-control" id="nomorAnggotaSearch" disabled>
+                                        <input type="text" class="form-control nomorAnggotaSearch" disabled>
+                                        <input type="hidden" class="form-control nomorAnggota">
                                         <div class="input-group-append">
                                             <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
                                         </div>
@@ -133,6 +137,74 @@
                         </div>
                     </div>
                     <div id="data-anggota">
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modalWajib" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bayar Wajib</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form_bayar_wajib" method="post" action="#">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Nomor Anggota :</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <input type="text" class="form-control nomorAnggotaSearch" disabled>
+                                        <input type="hidden" class="form-control nomorAnggota" name="id_anggota">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Jumlah Bulan :</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <input type="text" class="form-control bulan" name="bulan" value="3">
+                                        <input type="hidden" class="form-control nilai_wajib" value="<?php echo $wajib; ?>" name="nilai_wajib">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Jumlah Setor :</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <input type="text" class="form-control uang jml_setor" disabled>
+                                        <input type="hidden" class="form-control jml_setor" name="setor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">&nbsp;</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <button type="submit" class="btn btn-primary btn-block" id="loadBtn">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
