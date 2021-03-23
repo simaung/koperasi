@@ -104,16 +104,27 @@ class Laporan extends MY_Controller
         $where = array();
 
         if (!empty($post['status'])) {
-            $where['status'] = $post['status'];
+            $where['a.status'] = $post['status'];
         }
         if (!empty($post['status_pengajuan'])) {
-            $where['status_pengajuan'] = $post['status_pengajuan'];
+            $where['a.status_pengajuan'] = $post['status_pengajuan'];
+        }
+        if (!empty($post['id_anggota'])) {
+            $where['a.anggota_id'] = $post['id_anggota'];
         }
         if (!empty($post['bulan'])) {
             $where['MONTH(tgl_entry)'] = $post['bulan'];
         }
         if (!empty($post['tahun'])) {
             $where['YEAR(tgl_entry)'] = $post['tahun'];
+        }
+        if (!empty($post['periode'])) {
+            $periode = explode(' - ', $post['periode']);
+            $tgl_awal = tgl_db($periode[0]);
+            $tgl_akhir = tgl_db($periode[1]);
+
+            $where['tgl_entry >= '] = $tgl_awal . ' 00:00:00';
+            $where['tgl_entry <= '] = $tgl_akhir . ' 23:59:59';
         }
 
         $data_pinjaman = $this->pinjaman_model->get_data_pinjaman($where);
@@ -137,16 +148,37 @@ class Laporan extends MY_Controller
     {
         $this->load->model('pinjaman_model');
         $post = $this->input->post();
-        $where = array();
+        $where = '';
 
         if (!empty($post['status'])) {
-            $where['status'] = $post['status'];
+            $where .= "trans_kas.type = '" . $post['status'] . "'";
         }
+
         if (!empty($post['bulan'])) {
-            $where['MONTH(tgl_entry)'] = $post['bulan'];
+            if ($where != '') {
+                $where .= ' and ';
+            }
+            $where .= "MONTH(trans_kas.tgl_transaksi) = '" . $post['bulan'] . "'";
         }
+
         if (!empty($post['tahun'])) {
-            $where['YEAR(tgl_entry)'] = $post['tahun'];
+            if ($where != '') {
+                $where .= ' and ';
+            }
+            $where .= "YEAR(trans_kas.tgl_transaksi) = '" . $post['tahun'] . "'";
+        }
+
+        if (!empty($post['periode'])) {
+            $periode = explode(' - ', $post['periode']);
+            $tgl_awal = tgl_db($periode[0]);
+            $tgl_akhir = tgl_db($periode[1]);
+
+            if ($where != '') {
+                $where .= ' and ';
+            }
+
+            $where .= "trans_kas.tgl_transaksi >= '" . $tgl_awal . " 00:00:00'";
+            $where .= "and trans_kas.tgl_transaksi <= '" . $tgl_akhir . " 23:59:59'";
         }
 
         $data_kas = $this->pinjaman_model->get_data_kas($where);

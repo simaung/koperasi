@@ -154,6 +154,16 @@
                 <form action="<?php echo base_url('laporan/pinjaman'); ?>" method="post" target="_blank">
                     <div class="row">
                         <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group date" data-target-input="nearest">
+                                    <input type="text" class="form-control nomorAnggotaSearch" placeholder="nomor anggota" disabled>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <select class="form-control" name="status_pengajuan">
                                 <option value="">-- Status Pengajuan -- </option>
                                 <option value="pending">Pending</option>
@@ -168,7 +178,19 @@
                                 <option value="lunas">Lunas</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <select class="form-control" name="bulan">
                                 <option value="">-- Bulan -- </option>
                                 <option value="1">Januari</option>
@@ -186,8 +208,9 @@
                             </select>
                         </div>
                         <?php $tahun = date('Y'); ?>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <select class="form-control" name="tahun">
+                                <option value="">-- Tahun -- </option>
                                 <?php for ($i = 1; $i < 4; $i++) { ?>
                                     <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
                                 <?php
@@ -212,9 +235,19 @@
                         <div class="col-md-3">
                             <select class="form-control" name="status">
                                 <option value="">-- Status -- </option>
-                                <option value="aktif">Debet</option>
-                                <option value="keluar">Kredit</option>
+                                <option value="debet">Debet</option>
+                                <option value="kredit">Kredit</option>
                             </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <select class="form-control" name="bulan">
@@ -236,6 +269,7 @@
                         <?php $tahun = date('Y'); ?>
                         <div class="col-md-2">
                             <select class="form-control" name="tahun">
+                                <option value="">-- Tahun -- </option>
                                 <?php for ($i = 1; $i < 4; $i++) { ?>
                                     <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
                                 <?php

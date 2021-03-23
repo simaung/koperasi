@@ -67,6 +67,10 @@ class MY_Model extends CI_Model
 
     function get_data_kas($where)
     {
+        if ($where != '') {
+            $where = "where " . $where;
+        }
+
         $sql = "
         select * from
         (
@@ -89,7 +93,9 @@ class MY_Model extends CI_Model
             created_at as tgl_transaksi
             from t_simpan a
             left join t_anggota b on a.anggota_id = b.id
+            where a.show_report = '1'
         ) as trans_kas        
+        " . $where . "
         order by trans_kas.tgl_transaksi ASC;
         ";
 
