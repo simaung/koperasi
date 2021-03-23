@@ -59,13 +59,25 @@ class Laporan extends MY_Controller
     {
         $this->load->model('simpanan_model');
         $post = $this->input->post();
+
         $where = array();
 
+        if (!empty($post['id_anggota'])) {
+            $where['a.anggota_id'] = $post['id_anggota'];
+        }
         if (!empty($post['bulan'])) {
             $where['MONTH(created_at)'] = $post['bulan'];
         }
         if (!empty($post['tahun'])) {
             $where['YEAR(created_at)'] = $post['tahun'];
+        }
+        if (!empty($post['periode'])) {
+            $periode = explode(' - ', $post['periode']);
+            $tgl_awal = tgl_db($periode[0]);
+            $tgl_akhir = tgl_db($periode[1]);
+
+            $where['created_at >= '] = $tgl_awal . ' 00:00:00';
+            $where['created_at <= '] = $tgl_akhir . ' 23:59:59';
         }
 
         $data_simpanan = $this->simpanan_model->get_data_simpanan($where);
@@ -78,7 +90,6 @@ class Laporan extends MY_Controller
         $data['nama_koperasi']      = $nama_koperasi;
         $data['alamat_koperasi']    = $alamat_koperasi;
         $data['simpanan'] = $data_simpanan;
-
 
         $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
         $html = $this->load->view('laporan/simpanan', $data, true);

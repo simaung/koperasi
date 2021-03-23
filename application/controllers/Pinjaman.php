@@ -74,7 +74,7 @@ class Pinjaman extends MY_Controller
 
         $this->load->model('anggota_model');
 
-        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id), 'false', 'id', 'desc');
+        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1'), 'false', 'id', 'desc');
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
         $data = array(

@@ -4,7 +4,8 @@
     if ($wajib == 0) {
         $jasa = 0;
     } else {
-        $jasa = $sisa_pinjaman * $data_anggota->bunga / 100;
+        // $jasa = $sisa_pinjaman * $data_anggota->bunga / 100;
+        $jasa = $data_anggota->total_pinjam * $data_anggota->bunga / 100;
     }
     ?>
     <input type="hidden" class="form-control" name="pinjam_id" value="<?php echo $data_anggota->pinjam_id; ?>">

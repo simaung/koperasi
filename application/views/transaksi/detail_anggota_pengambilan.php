@@ -19,6 +19,24 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-4 col-form-label">Total Pokok</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-lg uang" id="total_tabungan" value="<?php echo rp($data_anggota->pokok); ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">Total Wajib</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-lg uang" id="total_tabungan" value="<?php echo rp($data_anggota->wajib); ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">Total Sukarela</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-lg uang" id="total_tabungan" value="<?php echo rp($data_anggota->sukarela); ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-4 col-form-label">Total Pengambilan</label>
                             <div class="col-8">
                                 <input type="text" class="form-control form-control-lg uang" id="change_total_pengambilan" value="0">

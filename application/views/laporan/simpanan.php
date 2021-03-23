@@ -9,7 +9,7 @@
         border: 1px solid black;
     } */
 </style>
-<table align="center" >
+<table align="center">
     <tr>
         <td>
             <img src="<?= base_url('assets'); ?>/img/logo_kop.gif" style="opacity: .8" width="80px">
@@ -32,7 +32,7 @@
     <table border="1" align="center" width="100%" style="border: 1px solid black">
         <tr style="border: 1px solid black">
             <th>No</th>
-            <!-- <th width="150px">Tanggal Transaksi</th> -->
+            <th width="150px">Tanggal Transaksi</th>
             <th width="130px">Nomor Anggota</th>
             <th>Nama Anggota</th>
             <th>Pokok</th>
@@ -55,6 +55,7 @@
             <tr>
                 <td style="border: 1px solid black;text-align:center"><?php echo $i; ?></td>
                 <!-- <td style="border: 1px solid black"><?php echo tgl_indo($row->created_at, 'time'); ?></td> -->
+                <td style="border: 1px solid black"><?php echo tgl_indo(substr($row->created_at, 0, 10)); ?></td>
                 <td style="border: 1px solid black;text-align:center"><?php echo $row->anggota_id; ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->nama_anggota); ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->pokok); ?></td>
@@ -73,7 +74,7 @@
             $jumlah_setor += $row->jumlah_setor;
         } ?>
         <tr>
-            <th colspan="3">Total</th>
+            <th colspan="4">Total</th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($pokok); ?></th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($wajib); ?></th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($sukarela); ?></th>

@@ -79,6 +79,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
+                                <input type="hidden" class="id_anggota" name="id_anggota">
                                 <button type="submit" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
                             </div>
                     </form>
@@ -91,6 +92,26 @@
                 <form action="<?php echo base_url('laporan/simpanan'); ?>" method="post" target="_blank">
                     <div class="row">
                         <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group date" data-target-input="nearest">
+                                    <input type="text" class="form-control nomorAnggotaSearch" placeholder="nomor anggota" disabled>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <select class="form-control" name="bulan">
                                 <option value="">-- Bulan -- </option>
                                 <option value="1">Januari</option>
@@ -108,8 +129,9 @@
                             </select>
                         </div>
                         <?php $tahun = date('Y'); ?>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="form-control" name="tahun">
+                                <option value="">-- Tahun -- </option>
                                 <?php for ($i = 1; $i < 4; $i++) { ?>
                                     <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
                                 <?php
@@ -118,7 +140,8 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <input type="hidden" class="id_anggota" name="id_anggota">
                             <button type="submit" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
                         </div>
                     </div>
@@ -174,6 +197,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <input type="hidden" class="id_anggota" name="id_anggota">
                             <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
                         </div>
                     </div>
@@ -221,6 +245,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <input type="hidden" class="id_anggota" name="id_anggota">
                             <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
                         </div>
                     </div>
@@ -232,3 +257,56 @@
     <!--/. container-fluid -->
 </section>
 <!-- /.content -->
+
+<div class="modal fade" id="modalAnggota" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Data Anggota</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="search" class="form-control" placeholder="Nomor Anggota" name="nomor_anggota" id="nomorAnggota">
+                        </div>
+                        <div class="col-6">
+                            <input type="search" class="form-control" placeholder="Nama Anggota" name="nama_anggota" id="namaAnggota">
+                        </div>
+                        <!-- <div class="col-4">
+                            <select class="form-control select2" name="status_anggota" id="status_anggota">
+                                <option value="">Pilih Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="keluar">Keluar</option>
+                            </select>
+                        </div> -->
+                    </div>
+                </div>
+                <table class="table table-bordered table-hover" id="table-anggota" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nomor Anggota</th>
+                            <th>Nama</th>
+                            <th>Pilih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger btn-block btnClear" name="nama_anggota">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<!-- /.modal -->

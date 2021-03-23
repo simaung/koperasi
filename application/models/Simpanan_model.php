@@ -16,6 +16,7 @@ class Simpanan_model extends MY_Model
         $this->db->select($this->column);
         $this->db->select('t_anggota.nama_anggota');
         $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
+        $this->db->where($this->table . '.show_report', '1');
         $this->db->join('t_anggota', $this->table . '.anggota_id = t_anggota.id');
         $this->db->join('t_angsuran', $this->table . '.id = t_angsuran.simpan_id', 'left');
         $this->db->from($this->table);
@@ -139,6 +140,7 @@ class Simpanan_model extends MY_Model
         $this->db->select('a.*');
         $this->db->select('t_anggota.id as anggota_id, t_anggota.nama_anggota');
         $this->db->where($where);
+        $this->db->where('a.show_report', '1');
         $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
         $this->db->join('t_anggota', 'a.anggota_id = t_anggota.id');
         $this->db->join('t_angsuran', 'a.id = t_angsuran.simpan_id', 'left');
@@ -153,17 +155,27 @@ class Simpanan_model extends MY_Model
 
         $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null), 'true', 'id', 'desc');
         $last_wajib = $last_wajib->created_at;
-        for ($i = 1; $i <= $post['bulan']; $i++) {
 
+        for ($i = 1; $i <= $post['bulan']; $i++) {
             $data_simpan = array(
                 'anggota_id'        => $post['id_anggota'],
                 'created_at'        => date('Y-m-01', strtotime('+' . $i . ' month', strtotime($last_wajib))),
                 'wajib'             => $post['nilai_wajib'],
                 'jumlah_setor'      => $post['nilai_wajib'],
                 'petugas_id'        => $id_petugas,
+                'show_report'       => '0',
             );
             $this->db->insert('t_simpan', $data_simpan);
         }
+
+        $data_wajib = array(
+            'anggota_id'        => $post['id_anggota'],
+            'created_at'        => date('Y-m-d H:i:s'),
+            'wajib'             => $post['nilai_wajib'] * $post['bulan'],
+            'jumlah_setor'      => $post['nilai_wajib'] * $post['bulan'],
+            'petugas_id'        => $id_petugas,
+        );
+        $this->db->insert('t_simpan', $data_wajib);
 
         $result = array(
             'code'          => '200',
