@@ -26,7 +26,7 @@ class Simpanan_model extends MY_Model
 
             if ($this->input->post('nomor_anggota')) {
                 if ($i === 0) {
-                    $this->db->like('id', $_POST['nomor_anggota']);
+                    $this->db->like('anggota_id', $_POST['nomor_anggota']);
                 } else {
                     $this->db->or_like($item, $this->input->post('nomor_anggota'));
                 }
@@ -37,14 +37,6 @@ class Simpanan_model extends MY_Model
                     $this->db->like('nama_anggota', $_POST['nama_anggota']);
                 } else {
                     $this->db->or_like($item, $this->input->post('nama_anggota'));
-                }
-            }
-
-            if ($this->input->post('status_anggota')) {
-                if ($i === 0) {
-                    $this->db->where('status', $_POST['status_anggota']);
-                } else {
-                    $this->db->or_where($item, $this->input->post('status_anggota'));
                 }
             }
         }

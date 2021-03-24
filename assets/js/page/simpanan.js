@@ -25,8 +25,6 @@ $(document).ready(function() {
             'data': function(data) {
                 data.nomor_anggota = $('#nomor_anggota').val();
                 data.nama_anggota = $('#nama_anggota').val();
-                // data.status_anggota = $('#status_anggota').val();
-
             },
         },
         "bPaginate": true,
@@ -78,6 +76,14 @@ $(document).ready(function() {
                 className: "text-right"
             },
         ],
+    });
+
+    $('#nomor_anggota').keyup(function() {
+        table.ajax.reload();
+    });
+
+    $('#nama_anggota').keyup(function() {
+        table.ajax.reload();
     });
 
     table_anggota = $('#table-anggota').DataTable({

@@ -50,7 +50,7 @@
           <a href=" #" class="nav-link <?php echo ($menu == 'transaksi') ? 'active' : ''; ?>">
             <i class="nav-icon fa fa-calculator"></i>
             <p>
-              Data Transaksi
+              Transaksi
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -74,11 +74,17 @@
                 <p>Pinjaman</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('kas'); ?>" class="nav-link <?php echo ($this->path == 'kas') ? 'active' : ''; ?>">
+                <i class="fas fa-cash-register nav-icon"></i>
+                <p>Kas</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item <?php echo ($menu == 'laporan') ? 'menu-open' : ''; ?>">
           <a href="<?php echo base_url('laporan'); ?>" class="nav-link <?php echo ($menu == 'laporan') ? 'active' : ''; ?>">
-            <i class="nav-icon fa fa-calculator"></i>
+            <i class="far fa-file-pdf nav-icon"></i>
             <p>
               Laporan
             </p>

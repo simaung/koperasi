@@ -33,7 +33,7 @@
         <tr style="border: 1px solid black">
             <th>No</th>
             <th width="200px">Tanggal Transaksi</th>
-            <th>Tipe transaksi</th>
+            <th>Transaksi</th>
             <th>Pemasukan</th>
             <th>Pengeluaran</th>
         </tr>
