@@ -32,47 +32,48 @@
                 <?php } ?>
 
                 <div class="form-group float-right btn-show">
-                    <?php if ($anggota->status != 'keluar') { ?>
+                    <!-- <?php if ($anggota->status != 'keluar') { ?>
                         <button class="btn btn-sm btn-danger" onclick="pengajuanKeluar(<?php echo $anggota->id; ?>)">Pengajuan Keluar</button>
-                    <?php } ?>
+                    <?php } ?> -->
 
-                    <!-- <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Edit Anggota</button> -->
+                    <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Edit Anggota</button>
                 </div>
                 <div class="form-group float-right btn-hide">
                     <button class="btn btn-sm btn-danger btn-batal">Batal</button>
-                    <button class="btn btn-sm btn-info" onclick="editAnggota(<?php echo $anggota->id; ?>)">Simpan perubahan</button>
+                    <button class="btn btn-sm btn-info" onclick="updateAnggota(<?php echo $anggota->id; ?>)">Simpan perubahan</button>
                 </div>
             </div>
             <div class="col-6">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tanggal Masuk :</label>
-                        <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input tanggal_fmt editable" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo tgl_indo_simple($anggota->tgl_masuk); ?>" disabled />
-                            <div class="input-group-append" data-target="#tgl_masuk" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <form id="form_edit_anggota" method="post" action="#">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Tanggal Masuk :</label>
+                            <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input tanggal_fmt editable" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo tgl_indo_simple($anggota->tgl_masuk); ?>" disabled />
+                                <div class="input-group-append" data-target="#tgl_masuk" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="namaAnggota" class="col-form-label">Nama Lengkap : </label>
-                        <input type="text" class="form-control editable" id="namaAnggota" name="nama_anggota" value="<?php echo $anggota->nama_anggota; ?>" disabled>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="namaAnggota" class="col-form-label">Nama Lengkap : </label>
+                            <input type="text" class="form-control editable" id="namaAnggota" name="nama_anggota" value="<?php echo $anggota->nama_anggota; ?>" disabled>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Alamat : </label>
-                        <textarea class="form-control editable" name="alamat" disabled><?php echo $anggota->alamat_anggota; ?></textarea>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Alamat : </label>
+                            <textarea class="form-control editable" name="alamat" disabled><?php echo $anggota->alamat_anggota; ?></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Nomor Telepon :</label>
-                        <input type="text" class="form-control editable" name="telp" data-inputmask="'mask': ['9999-9999-999[99]']" data-mask value="<?php echo $anggota->telp; ?>" disabled>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Nomor Telepon :</label>
+                            <input type="text" class="form-control editable" name="telp" data-inputmask="'mask': ['9999-9999-999[99]']" data-mask value="<?php echo $anggota->telp; ?>" disabled>
+                        </div>
                     </div>
-                </div>
             </div>
             <div class="col-6">
                 <div class="col-12">
@@ -118,6 +119,7 @@
                     </div>
                 </div>
             </div>
+            </form>
             <div class="col-12">
                 <div class="col-12">
                     <div class="form-group">

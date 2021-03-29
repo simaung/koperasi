@@ -171,3 +171,27 @@ $(".btn-batal").on("click", function() {
     $('.btn-hide').hide();
     $('.editable').prop("disabled", true);
 });
+
+function updateAnggota(id) {
+    tombol_loading();
+    $.ajax({
+        type: 'POST',
+        url: base_url + 'anggota/update_anggota/' + id,
+        dataType: 'json',
+        data: $("#form_edit_anggota").serialize(),
+        success: function(response) {
+            // var obj = $.parseJSON(response);
+            var obj = response;
+            if (obj.code == '200') {
+                toastr.success(obj.message)
+                window.location.href = base_url + 'anggota/detail/' + id;
+            } else {
+                toastr.error(obj.message)
+                tombol_reset()
+            }
+        },
+        error: function() {
+            toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
+        }
+    });
+}

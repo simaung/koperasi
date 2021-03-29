@@ -126,7 +126,50 @@ class Anggota_model extends MY_Model
         } else {
             $result = array(
                 'code'          => '400',
-                'message'       => 'Tambah jamaah beserta tabungan gagal!',
+                'message'       => 'Tambah Anggota beserta simpanan gagal!',
+            );
+        }
+        return $result;
+    }
+
+    function update_anggota($id)
+    {
+        $post = $this->input->post();
+
+        $data_anggota = array(
+            'nama_anggota'      => $post['nama_anggota'],
+            'alamat_anggota'    => $post['alamat'],
+            'jenis_kelamin'     => $post['jenis_kelamin'],
+            'pekerjaan'         => $post['pekerjaan'],
+            'tgl_masuk'         => tgl_db($post['tgl_masuk']),
+            'tgl_lahir'         => tgl_db($post['tgl_lahir']),
+            'tempat_lahir'      => $post['tempat_lahir'],
+            'telp'              => removeChar($post['telp']),
+        );
+
+        $this->db->where('id', $id);
+        $anggota = $this->db->update('t_anggota', $data_anggota);;
+
+        // $data_simpanan = array(
+        //     'anggota_id'        => $anggota,
+        //     'jumlah_setor'      => $total_simpan,
+        //     'pokok'             => $pokok,
+        //     'wajib'             => $wajib,
+        //     'sukarela'          => $sukarela,
+        //     'petugas_id'        => $id_petugas,
+        // );
+
+        // $simpanan = $this->db->insert('t_simpan', $data_simpanan);
+
+        if ($anggota) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Data Anggota berhasil di update!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Data Anggota gagal di update!',
             );
         }
         return $result;

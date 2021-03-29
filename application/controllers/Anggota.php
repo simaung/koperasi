@@ -68,6 +68,12 @@ class Anggota extends MY_Controller
         echo json_encode($data);
     }
 
+    function update_anggota($id)
+    {
+        $data = $this->anggota_model->update_anggota($id);
+        echo json_encode($data);
+    }
+
     function lookup_anggota()
     {
         $list = $this->anggota_model->get_datatables();
