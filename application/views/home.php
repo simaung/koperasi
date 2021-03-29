@@ -64,8 +64,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
+            <!-- <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>53<sup style="font-size: 20px">%</sup></h3>
@@ -77,7 +76,7 @@
                     </div>
                     <a href="<?php echo base_url('anggota'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
+            </div> -->
             <!-- ./col -->
         </div>
         <!-- /.row -->
