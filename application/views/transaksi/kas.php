@@ -106,7 +106,7 @@
                                 </tbody>
                                 <div class="mamam"></div>
                             </table>
-                            <button type="button" class="btn btn-success btn-block" onclick="simpanTransaksiKas()">Simpan</button>
+                            <button type="submit" class="btn btn-success btn-block" id="loadBtn">Simpan</button>
                         </div>
                     </div>
                 </form>

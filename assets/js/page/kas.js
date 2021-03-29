@@ -81,6 +81,24 @@ $(document).on('click', '#removeRow', function() {
     $(this).closest('#inputFormRow').remove();
 });
 
+$("#form_tambah_kas").validate({
+    lang: 'id',
+    ignore: [],
+    rules: {
+        "description[]": {
+            required: true,
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        error.appendTo(element.parent("td"));
+    },
+    submitHandler: function() {
+        simpanTransaksiKas();
+    }
+});
+
 function simpanTransaksiKas() {
     tombol_loading();
     $.ajax({
