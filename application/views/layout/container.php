@@ -96,7 +96,7 @@
     <!-- <script src="<?= base_url('assets'); ?>/vendor/AdminLTE-3.0.5/dist/js/pages/dashboard.js"></script> -->
 
     <!-- jQuery Validations -->
-    <script src="<?= base_url('assets'); ?>/vendor/AdminLTE-3.0.5/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="<?= base_url('assets'); ?>/vendor/AdminLTE-3.0.5/plugins/jquery-validation/jquery.validate.js"></script>
     <script src="<?= base_url('assets'); ?>/vendor/AdminLTE-3.0.5/plugins/jquery-validation/additional-methods.min.js"></script>
     <script src="<?= base_url('assets'); ?>/vendor/AdminLTE-3.0.5/plugins/jquery-validation/localization/messages_id.min.js"></script>
 
