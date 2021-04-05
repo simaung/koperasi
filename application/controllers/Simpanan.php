@@ -34,7 +34,10 @@ class Simpanan extends MY_Controller
         $wajib  = $this->simpanan_model->get_data('t_setting', array('name' => 'wajib'), 'true');
 
         $data_anggota = $this->anggota_model->get_data_anggota($id);
+
         $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => date('m'), 'pokok >=' => 0), true);
+        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m')), true);
+
         if ($get_wajib) {
             $wajib = 0;
         } else {
@@ -49,8 +52,11 @@ class Simpanan extends MY_Controller
             $wajib = $wajib->nilai * $numBulan;
         }
 
+        $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
+
         $data = array(
             'wajib'         => $wajib,
+            'jasa'          => $jasa,
             'data_anggota'  => $data_anggota,
         );
 
