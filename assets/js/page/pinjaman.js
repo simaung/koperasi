@@ -109,7 +109,7 @@ $(document).ready(function() {
 
             },
         },
-        "bPaginate": false,
+        "bPaginate": true,
         "bLengthChange": false,
         "bFilter": false,
         "bInfo": true,
