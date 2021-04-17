@@ -46,7 +46,7 @@
         </div>
         <?= $sidebar ?>
         <!-- /.content-wrapper -->
-        <?= $footer ?>
+        <!-- <?= $footer ?> -->
 
     </div>
     <!-- ./wrapper -->

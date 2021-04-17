@@ -23,7 +23,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        <li class="nav-item <?php echo ($menu == 'master') ? 'menu-open' : ''; ?>">
+        <li class="nav-item menu-open">
           <a href=" #" class="nav-link <?php echo ($menu == 'master') ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-th"></i>
             <p>
@@ -46,7 +46,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item <?php echo ($menu == 'transaksi') ? 'menu-open' : ''; ?>">
+        <li class="nav-item menu-open">
           <a href=" #" class="nav-link <?php echo ($menu == 'transaksi') ? 'active' : ''; ?>">
             <i class="nav-icon fa fa-calculator"></i>
             <p>
@@ -82,7 +82,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item <?php echo ($menu == 'laporan') ? 'menu-open' : ''; ?>">
+        <li class="nav-item menu-open">
           <a href="<?php echo base_url('laporan'); ?>" class="nav-link <?php echo ($menu == 'laporan') ? 'active' : ''; ?>">
             <i class="far fa-file-pdf nav-icon"></i>
             <p>

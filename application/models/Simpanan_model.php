@@ -89,6 +89,7 @@ class Simpanan_model extends MY_Model
             'wajib'             => $post['wajib'],
             'sukarela'          => $post['sukarela'],
             'petugas_id'        => $id_petugas,
+            'created_at'        => tgl_db($post['tgl_masuk']) . ' ' . date('H:i:s'),
         );
 
         $this->db->insert('t_simpan', $data_simpan);
@@ -103,6 +104,7 @@ class Simpanan_model extends MY_Model
                 'jumlah_angsuran'   => $post['angsuran'],
                 'jasa'              => $post['jasa'],
                 'sisa_pinjaman'     => $sisa_pinjaman,
+                'tgl_entry'         => tgl_db($post['tgl_masuk']) . ' ' . date('H:i:s'),
             );
 
             if ($sisa_pinjaman <= 0) {
