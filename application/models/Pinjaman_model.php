@@ -142,6 +142,14 @@ class Pinjaman_model extends MY_Model
         $ambil = $this->db->insert_id();
 
         if ($ambil) {
+            $data_kas = array(
+                'description'   => 'Biaya Admin Pinjaman Nomor Anggota : ' . $get_pinjam->anggota_id . ' Sebesar : ' . rp($get_pinjam->total_pinjam),
+                'type'          => 'debet',
+                'amount'        => $post['provisi'],
+            );
+
+            $this->db->insert('t_kas', $data_kas);
+
             $result = array(
                 'code'          => '200',
                 'message'       => 'Tambah pengajuan pinjaman berhasil!',

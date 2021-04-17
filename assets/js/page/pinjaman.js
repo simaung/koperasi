@@ -214,10 +214,19 @@ function approvePengajuan(status, id) {
 }
 
 function ambil_pinjaman(id) {
+    $('#biayaAdmin').modal('show')
+    $('.idPengajuan').val(id);
+}
+
+function proses_ambil() {
+    var id = $('.idPengajuan').val();
+    var provisi = $('.biayaAdmin').val();
+    provisi = provisi.replace(/\D+/g, '');
+
     $.ajax({
         type: 'POST',
         url: base_url + 'pinjaman/ambil_pinjaman/',
-        data: { id: id },
+        data: { id: id, provisi: provisi },
         dataType: 'json',
         success: function(response) {
             var obj = response;

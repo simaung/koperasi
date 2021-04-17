@@ -112,3 +112,26 @@
     </div>
 </div>
 <!-- /.modal -->
+
+<div class="modal fade" id="biayaAdmin" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ambil Pinjaman</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="biaya-admin">Biaya Admin</label>
+                <input type="hidden" class="form-control idPengajuan">
+                <input type="text" class="form-control uang biayaAdmin" placeholder="0">
+                <br>
+                <button class="btn btn-success float-right" id="loadBtn" onclick="proses_ambil()">Proses</button>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<!-- /.modal -->
