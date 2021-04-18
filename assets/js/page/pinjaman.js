@@ -243,15 +243,14 @@ function lunasinDariSimpanan() {
     $('#loadBtn').hide();
     var id_anggota = $('#id_anggota').val();
     var id_pinjam = $('#id_pinjam').val();
-    var pinjaman = $('#sisa_pinjaman').val();
-    var tabungan = $('#tabungan').val();
-    var sukarela = $('#sukarela').val();
-    var jasa = $('#jasa').val();
+    var pinjaman = parseInt($('#sisa_pinjaman').val());
+    var tabungan = parseInt($('#tabungan').val());
+    var sukarela = parseInt($('#sukarela').val());
+    var jasa = parseInt($('#jasa').val());
 
     if (tabungan <= pinjaman) {
-
         kurang = pinjaman - tabungan;
-        total = parseInt(kurang) + parseInt(jasa);
+        total = kurang + jasa;
         status = 'keluar';
 
         totalKurang = formatRibuan(kurang);
@@ -280,10 +279,36 @@ function lunasinDariSimpanan() {
             '</div>' +
             '</div>' +
             '<button type="button" class="btn btn-warning float-right" id="loadBtn" onclick="prosesLunas(' + id_anggota + ',' + id_pinjam + ', \'' + status + '\' ,' + kurang + ',' + jasa + ',' + total + ',' + tabungan + ')">Proses</button>'
+        $("#hitung").html(result);
+    } else if (sukarela >= (pinjaman + jasa)) {
+        status = 'aktif';
+
+        Swal.fire({
+            title: 'Apa anda yakin?',
+            text: "Anda yakin ingin melunasi pinjaman dengan saldo sukarela?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya!',
+            cancelButtonText: 'Batal!'
+        }).then((result) => {
+            if (result.value == true) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'pinjaman/pelunasan_pinjaman/',
+                    data: { id_anggota: id_anggota, id_pinjam: id_pinjam, status: status, sukarela: sukarela, jasa: jasa, pinjaman: pinjaman },
+                    dataType: 'json',
+                    success: function(response) {
+                        window.location.href = base_url + 'pinjaman';
+                    },
+                    error: function() {}
+                });
+            } else {
+                $('#loadBtn').show();
+            }
+        })
     }
-
-    $("#hitung").html(result);
-
 }
 
 function formatRibuan(angka) {
@@ -294,15 +319,29 @@ function formatRibuan(angka) {
     return rupiah.split('', rupiah.length - 1).reverse().join('');
 }
 
-function prosesLunas(id, id_pinjam, status, kurang, jasa, total, tabungan) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + 'pinjaman/pelunasan_pinjaman/',
-        data: { id: id, id_pinjam: id_pinjam, status: status, kurang: kurang, jasa: jasa, total: total, tabungan: tabungan },
-        dataType: 'json',
-        success: function(response) {
-            window.location.href = base_url + 'pinjaman';
-        },
-        error: function() {}
-    });
+function prosesLunas(id_anggota, id_pinjam, status, kurang, jasa, total, tabungan) {
+    Swal.fire({
+        title: 'Apa anda yakin?',
+        text: "Dengan melunasi pinjaman dengan seluruh tabungan, otomatis keanggotaaan di nonaktifkan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya!',
+        cancelButtonText: 'Batal!'
+    }).then((result) => {
+        if (result.value == true) {
+            $.ajax({
+                type: 'POST',
+                url: base_url + 'pinjaman/pelunasan_pinjaman/',
+                data: { id_anggota: id_anggota, id_pinjam: id_pinjam, status: status, kurang: kurang, jasa: jasa, total: total, tabungan: tabungan },
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href = base_url + 'pinjaman';
+                },
+                error: function() {}
+            });
+        }
+    })
+
 }
