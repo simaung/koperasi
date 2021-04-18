@@ -162,4 +162,57 @@ class Pinjaman_model extends MY_Model
         }
         return $result;
     }
+
+    function pelunasan_pinjaman($id_petugas)
+    {
+        $post = $this->input->post();
+
+        if ($post['status'] == 'keluar') {
+            $data_ambil = array(
+                'anggota_id'        => $post['id'],
+                'total_ambil'       => $post['tabungan'],
+                'type'              => 'pengambilan simpanan',
+                'petugas_id'        => $id_petugas,
+            );
+
+            $this->db->insert('t_pengambilan', $data_ambil);
+
+            $data_simpan = array(
+                'anggota_id'        => $post['id'],
+                'jumlah_setor'      => $post['tabungan'] + $post['total'],
+                'petugas_id'        => $id_petugas,
+            );
+
+            $this->db->insert('t_simpan', $data_simpan);
+            $simpan = $this->db->insert_id();
+
+            $data_angsuran = array(
+                'pinjam_id'         => $post['id_pinjam'],
+                'simpan_id'         => $simpan,
+                'jumlah_angsuran'   => $post['tabungan'] + $post['kurang'],
+                'jasa'              => $post['jasa'],
+                'sisa_pinjaman'     => 0,
+            );
+
+            $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id']));
+
+            $this->db->where('id', $post['id_pinjam']);
+            $this->db->update('t_pinjam', array('status' => 'lunas'));
+
+            $angsuran = $this->db->insert('t_angsuran', $data_angsuran);
+
+            if ($angsuran) {
+                $result = array(
+                    'code'          => '200',
+                    'message'       => 'Pelunasan pinjaman berhasil!',
+                );
+            } else {
+                $result = array(
+                    'code'          => '400',
+                    'message'       => 'Pelunasan pinjaman gagal!',
+                );
+            }
+            return $result;
+        }
+    }
 }

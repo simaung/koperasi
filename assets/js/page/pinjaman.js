@@ -238,3 +238,71 @@ function proses_ambil() {
         }
     });
 }
+
+function lunasinDariSimpanan() {
+    $('#loadBtn').hide();
+    var id_anggota = $('#id_anggota').val();
+    var id_pinjam = $('#id_pinjam').val();
+    var pinjaman = $('#sisa_pinjaman').val();
+    var tabungan = $('#tabungan').val();
+    var sukarela = $('#sukarela').val();
+    var jasa = $('#jasa').val();
+
+    if (tabungan <= pinjaman) {
+
+        kurang = pinjaman - tabungan;
+        total = parseInt(kurang) + parseInt(jasa);
+        status = 'keluar';
+
+        totalKurang = formatRibuan(kurang);
+        totalJasa = formatRibuan(jasa);
+        totalBayar = formatRibuan(total);
+
+        result = '<div class="alert alert-danger alert-dismissible">' +
+            'Pelunasan dengan simpanan, otomatis akan menonaktifkan keanggotaan anda!' +
+            '</div>' +
+            '<div class="form-group row">' +
+            '<label class="col-4 col-form-label">Kekurangan Bayar</label>' +
+            '<div class="col-8">' +
+            '<input type="text" class="form-control form-control-lg text-right" value="' + totalKurang + '" disabled>' +
+            '</div>' +
+            '</div>' +
+            '<div class="form-group row">' +
+            '<label class="col-4 col-form-label">Jasa</label>' +
+            '<div class="col-8">' +
+            '<input type="text" class="form-control form-control-lg text-right" value="' + totalJasa + '" disabled>' +
+            '</div>' +
+            '</div>' +
+            '<div class="form-group row">' +
+            '<label class="col-4 col-form-label">Total Tambah Bayar</label>' +
+            '<div class="col-8">' +
+            '<input type="text" class="form-control form-control-lg text-right" value="' + totalBayar + '" disabled>' +
+            '</div>' +
+            '</div>' +
+            '<button type="button" class="btn btn-warning float-right" id="loadBtn" onclick="prosesLunas(' + id_anggota + ',' + id_pinjam + ', \'' + status + '\' ,' + kurang + ',' + jasa + ',' + total + ',' + tabungan + ')">Proses</button>'
+    }
+
+    $("#hitung").html(result);
+
+}
+
+function formatRibuan(angka) {
+    var rupiah = '';
+    var angkarev = angka.toString().split('').reverse().join('');
+    for (var i = 0; i < angkarev.length; i++)
+        if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+    return rupiah.split('', rupiah.length - 1).reverse().join('');
+}
+
+function prosesLunas(id, id_pinjam, status, kurang, jasa, total, tabungan) {
+    $.ajax({
+        type: 'POST',
+        url: base_url + 'pinjaman/pelunasan_pinjaman/',
+        data: { id: id, id_pinjam: id_pinjam, status: status, kurang: kurang, jasa: jasa, total: total, tabungan: tabungan },
+        dataType: 'json',
+        success: function(response) {
+            window.location.href = base_url + 'pinjaman';
+        },
+        error: function() {}
+    });
+}

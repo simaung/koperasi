@@ -77,6 +77,10 @@ class Pinjaman extends MY_Controller
         $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1'), 'false', 'id', 'desc');
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
+        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m')), true);
+        $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
+        $data_anggota->jasa = $jasa;
+
         $data = array(
             'simpanan_anggota'  => $simpanan_anggota,
             'data_anggota'      => $data_anggota,
@@ -136,5 +140,11 @@ class Pinjaman extends MY_Controller
     {
         $ambil = $this->pinjaman_model->ambil_pinjaman();
         echo json_encode($ambil);
+    }
+
+    function pelunasan_pinjaman()
+    {
+        $pelunasan = $this->pinjaman_model->pelunasan_pinjaman($this->authData['id_user']);
+        echo json_encode($pelunasan);
     }
 }
