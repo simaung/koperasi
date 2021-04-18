@@ -74,10 +74,10 @@ class Pinjaman extends MY_Controller
 
         $this->load->model('anggota_model');
 
-        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1'), 'false', 'id', 'desc');
+        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1', 'status' => 'aktif'), 'false', 'id', 'asc');
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
-        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m')), true);
+        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m'), 'status' => 'aktif'), true);
         $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
         $data_anggota->jasa = $jasa;
 
@@ -102,7 +102,7 @@ class Pinjaman extends MY_Controller
         $this->load->model('anggota_model');
 
         $pengajuan = $this->pinjaman_model->get_data('t_pinjam', array('id' => $id), 'true', 'id', 'desc');
-        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $pengajuan->anggota_id, 'show_report' => '1'), 'false', 'id', 'desc');
+        $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $pengajuan->anggota_id, 'show_report' => '1', 'status' => 'aktif'), 'false', 'created_at', 'asc');
 
         $data_anggota = $this->anggota_model->get_data_anggota($pengajuan->anggota_id);
 

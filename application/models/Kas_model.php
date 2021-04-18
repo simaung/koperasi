@@ -14,6 +14,7 @@ class Kas_model extends MY_Model
     private function _get_table_query()
     {
         $this->db->select($this->column);
+        $this->db->not_like('description', 'Biaya Admin Pinjaman');
         $this->db->from($this->table);
         $i = 0;
 

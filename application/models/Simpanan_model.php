@@ -17,6 +17,7 @@ class Simpanan_model extends MY_Model
         $this->db->select('t_anggota.nama_anggota');
         $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
         $this->db->where($this->table . '.show_report', '1');
+        $this->db->where($this->table . '.status', 'aktif');
         $this->db->join('t_anggota', $this->table . '.anggota_id = t_anggota.id');
         $this->db->join('t_angsuran', $this->table . '.id = t_angsuran.simpan_id', 'left');
         $this->db->from($this->table);
@@ -135,10 +136,11 @@ class Simpanan_model extends MY_Model
         $this->db->select('t_anggota.id as anggota_id, t_anggota.nama_anggota');
         $this->db->where($where);
         $this->db->where('a.show_report', '1');
-        $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa');
+        $this->db->where('a.status', 'aktif');
+        $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa, t_angsuran.sisa_pinjaman');
         $this->db->join('t_anggota', 'a.anggota_id = t_anggota.id');
         $this->db->join('t_angsuran', 'a.id = t_angsuran.simpan_id', 'left');
-        $this->db->order_by('a.created_at', 'desc');
+        $this->db->order_by('a.created_at', 'asc');
         $query = $this->db->get('t_simpan a');
         return $query->result();
     }
@@ -147,7 +149,7 @@ class Simpanan_model extends MY_Model
     {
         $post = $_POST;
 
-        $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null), 'true', 'id', 'desc');
+        $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
         $last_wajib = $last_wajib->created_at;
 
         for ($i = 1; $i <= $post['bulan']; $i++) {

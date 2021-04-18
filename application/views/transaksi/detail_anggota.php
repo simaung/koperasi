@@ -18,11 +18,18 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-4 col-form-label">Total Simpanan</label>
+                            <label class="col-4 col-form-label text-danger">Jasa</label>
                             <div class="col-8">
-                                <input type="text" class="form-control form-control-lg uang" value="<?php echo rp($data_anggota->total_tabungan); ?>" disabled>
+                                <input type="text" class="form-control form-control-lg uang text-danger" value="<?php echo rp($data_anggota->jasa); ?>" disabled>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-danger">Total Bayar Pinjaman</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-lg uang text-danger" value="<?php echo rp($data_anggota->jasa + ($data_anggota->total_pinjam - $data_anggota->jumlah_angsuran)); ?>" disabled>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="form-group row">
                             <label class="col-4 col-form-label">Total Pokok</label>
                             <div class="col-8">
@@ -39,6 +46,12 @@
                             <label class="col-4 col-form-label">Total Sukarela</label>
                             <div class="col-8">
                                 <input type="text" class="form-control form-control-lg uang" value="<?php echo rp($data_anggota->sukarela); ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">Total Simpanan</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-lg uang" value="<?php echo rp($data_anggota->total_tabungan); ?>" disabled>
                             </div>
                         </div>
                         <button type="button" class="btn btn-warning float-right" id="loadBtn" onclick="lunasinDariSimpanan()">Lunasin dari simpanan</button>

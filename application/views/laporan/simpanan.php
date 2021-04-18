@@ -41,6 +41,7 @@
             <th>Angsuran</th>
             <th>Jasa</th>
             <th>Jumlah Setor</th>
+            <th>Sisa Pinjaman</th>
         </tr>
         <?php
         $pokok = 0;
@@ -64,6 +65,7 @@
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jumlah_angsuran); ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jasa); ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jumlah_setor); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->sisa_pinjaman); ?></td>
             </tr>
         <?php $i++;
             $pokok +=  $row->pokok;

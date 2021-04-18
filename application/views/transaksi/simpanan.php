@@ -111,11 +111,12 @@
                         <div class="col-6">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Tanggal Setor :</label>
-                                    <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input tanggal_fmt" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo date('d/m/y'); ?>" />
-                                        <div class="input-group-append" data-target="#tgl_masuk" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    <label for="recipient-name" class="col-form-label">Nomor Anggota :</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <input type="text" class="form-control nomorAnggotaSearch" disabled>
+                                        <input type="hidden" class="form-control nomorAnggota">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -124,12 +125,11 @@
                         <div class="col-6">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Nomor Anggota :</label>
-                                    <div class="input-group date" data-target-input="nearest">
-                                        <input type="text" class="form-control nomorAnggotaSearch" disabled>
-                                        <input type="hidden" class="form-control nomorAnggota">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
+                                    <label for="recipient-name" class="col-form-label">Tanggal Setor :</label>
+                                    <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input tanggal_fmt" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo date('d/m/y'); ?>" />
+                                        <div class="input-group-append" data-target="#tgl_masuk" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
                                     </div>
                                 </div>

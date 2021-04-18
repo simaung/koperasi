@@ -167,52 +167,81 @@ class Pinjaman_model extends MY_Model
     {
         $post = $this->input->post();
 
+        $data_ambil = array(
+            'anggota_id'        => $post['id_anggota'],
+            'type'              => 'pengambilan simpanan',
+            'petugas_id'        => $id_petugas,
+        );
+
         if ($post['status'] == 'keluar') {
-            $data_ambil = array(
-                'anggota_id'        => $post['id'],
-                'total_ambil'       => $post['tabungan'],
-                'type'              => 'pengambilan simpanan',
-                'petugas_id'        => $id_petugas,
-            );
-
-            $this->db->insert('t_pengambilan', $data_ambil);
-
-            $data_simpan = array(
-                'anggota_id'        => $post['id'],
-                'jumlah_setor'      => $post['tabungan'] + $post['total'],
-                'petugas_id'        => $id_petugas,
-            );
-
-            $this->db->insert('t_simpan', $data_simpan);
-            $simpan = $this->db->insert_id();
-
-            $data_angsuran = array(
-                'pinjam_id'         => $post['id_pinjam'],
-                'simpan_id'         => $simpan,
-                'jumlah_angsuran'   => $post['tabungan'] + $post['kurang'],
-                'jasa'              => $post['jasa'],
-                'sisa_pinjaman'     => 0,
-            );
-
-            $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id']));
-
-            $this->db->where('id', $post['id_pinjam']);
-            $this->db->update('t_pinjam', array('status' => 'lunas'));
-
-            $angsuran = $this->db->insert('t_angsuran', $data_angsuran);
-
-            if ($angsuran) {
-                $result = array(
-                    'code'          => '200',
-                    'message'       => 'Pelunasan pinjaman berhasil!',
-                );
-            } else {
-                $result = array(
-                    'code'          => '400',
-                    'message'       => 'Pelunasan pinjaman gagal!',
-                );
-            }
-            return $result;
+            $data_ambil['total_ambil'] = $post['tabungan'];
+        } else {
+            $data_ambil['total_ambil'] = $post['pinjaman'] + $post['jasa'];
         }
+
+        $this->db->insert('t_pengambilan', $data_ambil);
+
+        $data_simpan = array(
+            'anggota_id'        => $post['id_anggota'],
+            'petugas_id'        => $id_petugas,
+        );
+
+        if ($post['status'] == 'keluar') {
+            $data_simpan['jumlah_setor'] = $post['tabungan'] + $post['total'];
+        } else {
+            $data_simpan['jumlah_setor'] = $post['pinjaman'] + $post['jasa'];
+        }
+
+        $this->db->insert('t_simpan', $data_simpan);
+        $simpan = $this->db->insert_id();
+
+        $data_angsuran = array(
+            'pinjam_id'         => $post['id_pinjam'],
+            'simpan_id'         => $simpan,
+            'jasa'              => $post['jasa'],
+            'sisa_pinjaman'     => 0,
+        );
+
+        if ($post['status'] == 'keluar') {
+            $data_angsuran['jumlah_angsuran'] = $post['tabungan'] + $post['kurang'];
+        } else {
+            $data_angsuran['jumlah_angsuran'] = $post['pinjaman'];
+        }
+
+        $this->db->where('id', $post['id_pinjam']);
+        $this->db->update('t_pinjam', array('status' => 'lunas'));
+
+        $angsuran = $this->db->insert('t_angsuran', $data_angsuran);
+
+        if ($post['status'] == 'keluar') {
+            $data_kas = array(
+                'type'          => 'debet',
+                'description'   => 'Tambah kekurangan pelunasan pinjaman nomor anggota : ' . $post['id_anggota'],
+                'amount'        => $post['total']
+            );
+            $kas = $this->db->insert('t_kas', $data_kas);
+        }
+
+        if ($post['status'] == 'keluar') {
+            $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id_anggota']));
+
+            //update transaksi anggota sebelum keluar menjadi nonaktif
+            $this->update_data('t_simpan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+            $this->update_data('t_pengambilan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+            $this->update_data('t_angsuran', array('status' => 'nonaktif'), array('pinjam_id' => $post['id_pinjam']));
+        }
+
+        if ($angsuran) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Pelunasan pinjaman berhasil!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Pelunasan pinjaman gagal!',
+            );
+        }
+        return $result;
     }
 }

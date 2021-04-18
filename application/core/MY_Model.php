@@ -88,7 +88,7 @@ class MY_Model extends CI_Model
 
             select
             'debet' as type,
-            'Simpanan' as description,
+            concat('Simpanan nomor anggota ', b.id) as description,
             jumlah_setor as amount,
             b.id as nomor_anggota, b.nama_anggota,
             created_at as tgl_transaksi
@@ -132,7 +132,7 @@ class MY_Model extends CI_Model
         $debet = "
             select
             'debet' as type,
-            'Simpanan' as description,
+            concat('Simpanan nomor anggota : ', b.id) as description,
             jumlah_setor as amount,
             b.id as nomor_anggota, b.nama_anggota,
             created_at as tgl_transaksi
@@ -143,7 +143,7 @@ class MY_Model extends CI_Model
         $kredit = "
             select 
             'kredit' as type,
-            type as description,
+            concat(type, ' nomor anggota : ', b.id) as description,
             total_ambil as amount,
             b.id as nomor_anggota, b.nama_anggota,
             tgl_ambil as tgl_transaksi
@@ -261,7 +261,6 @@ class MY_Model extends CI_Model
             $select_kas .= $where;
         }
 
-
         if (!empty($post['status'])) {
             if ($post['status'] == 'kredit') {
                 $select_kredit = $select_kredit . $union_all;
@@ -277,7 +276,7 @@ class MY_Model extends CI_Model
             select * from(
                 " . $select_debet . "
                 " . $select_kredit . "
-                " . $select_kas . "
+                " . $select_kas . " and description not like '%Biaya Admin Pinjaman Nomor Anggota%'
             )as trans_kas order by trans_kas.tgl_transaksi asc
         ";
 
