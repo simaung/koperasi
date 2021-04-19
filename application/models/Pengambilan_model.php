@@ -74,12 +74,9 @@ class Pengambilan_model extends MY_Model
     {
         $post = $this->input->post();
 
-        if ($post['total_pengambilan'] == $post['total_simpanan']) {
-            $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id_anggota']));
-        }
-
         $data_ambil = array(
             'anggota_id'        => $post['id_anggota'],
+            'sukarela'          => $post['total_pengambilan'],
             'total_ambil'       => $post['total_pengambilan'],
             'type'              => 'pengambilan simpanan',
             'petugas_id'        => $id_petugas,
@@ -89,6 +86,13 @@ class Pengambilan_model extends MY_Model
         $ambil = $this->db->insert_id();
 
         if ($ambil) {
+
+            if ($post['total_pengambilan'] == $post['total_simpanan']) {
+                $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id_anggota']));
+                $this->update_data('t_simpan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+                $this->update_data('t_pengambilan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+            }
+
             $result = array(
                 'code'          => '200',
                 'message'       => 'Tambah pengambilan berhasil!',
@@ -177,7 +181,7 @@ class Pengambilan_model extends MY_Model
 
         $this->db->where('id', $post['id_pinjam']);
         $this->db->update('t_pinjam', array('status' => 'lunas'));
-        
+
         if ($post['status'] == 'keluar') {
             $data_kas = array(
                 'type'          => 'debet',

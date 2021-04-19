@@ -142,8 +142,10 @@
                                 <input type="text" class="form-control form-control-lg uang" id="change_total_pengambilan" value="0">
                                 <input type="hidden" class="form-control" id="total_pengambilan" name="total_pengambilan" value="0" required>
                                 <input type="hidden" class="form-control" id="total_simpanan" name="total_simpanan" value="<?php echo $data_anggota->total_tabungan; ?>">
+                                <input type="hidden" class="form-control" id="sukarela" name="sukarela" value="<?php echo $data_anggota->sukarela; ?>">
                                 <input type="hidden" class="form-control" name="id_anggota" value="<?php echo $data_anggota->id; ?>">
                             </div>
+                            <div id="pesan_error"></div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block" id="loadBtn">Ambil Simpanan</button>
                     </div>
@@ -204,10 +206,12 @@
         errorPlacement: function(error, element) {
             error.addClass('invalid-feedback');
             element.closest('.form-group').append(error);
+            $("#pesan_error").html('');
         },
         submitHandler: function(form) {
             total_simpanan = Math.floor($('#total_simpanan').val());
-            total_pengambilan = $('#total_pengambilan').val();
+            total_pengambilan = parseInt($('#total_pengambilan').val());
+            sukarela = parseInt($('#sukarela').val());
 
             if (total_pengambilan == total_simpanan) {
                 Swal.fire({
@@ -224,9 +228,13 @@
                         proses_pengambilan();
                     }
                 })
+            } else if (total_pengambilan > sukarela && total_pengambilan < total_simpanan) {
+                result = '<span class="error invalid-feedback" style="display:inline">Total ambil tidak boleh melebihi saldo sukarela!</span>';
+                $("#pesan_error").append(result);
             } else {
                 proses_pengambilan();
             }
+
         },
     });
 
