@@ -35,24 +35,24 @@ class Simpanan extends MY_Controller
 
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
-        $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => date('m'), 'pokok >=' => 0), true);
-        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m')), true);
-
+        $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => date('m'), 'pokok >=' => 0, 'status' => 'aktif'), true);
         if ($get_wajib) {
             $wajib = 0;
         } else {
-            $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null), 'true', 'id', 'desc');
+            $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
+            if ($last_wajib) {
+                $date = date("Y-m-d");
+                $timeStart = strtotime($last_wajib->created_at);
+                $timeEnd = strtotime("$date");
+                $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
+                $numBulan += date("m", $timeEnd) - date("m", $timeStart);
 
-            $date = date("Y-m-d");
-            $timeStart = strtotime($last_wajib->created_at);
-            $timeEnd = strtotime("$date");
-            $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
-            $numBulan += date("m", $timeEnd) - date("m", $timeStart);
-
-            $wajib = $wajib->nilai * $numBulan;
+                $wajib = $wajib->nilai * $numBulan;
+            } else {
+                $wajib = $wajib;
+            }
         }
-
-        $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
+        $jasa = akumulasi_jasa($data_anggota);
 
         $data = array(
             'wajib'         => $wajib,

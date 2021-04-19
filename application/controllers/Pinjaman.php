@@ -77,8 +77,7 @@ class Pinjaman extends MY_Controller
         $simpanan_anggota = $this->pinjaman_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1', 'status' => 'aktif'), 'false', 'id', 'asc');
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
-        $get_angsuran = $this->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m'), 'status' => 'aktif'), true);
-        $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
+        $jasa = akumulasi_jasa($data_anggota);
         $data_anggota->jasa = $jasa;
 
         $data = array(

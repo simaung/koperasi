@@ -69,8 +69,7 @@ class Pengambilan extends MY_Controller
         $simpanan_anggota = $this->pengambilan_model->get_data('t_simpan', array('anggota_id' => $id, 'show_report' => '1'), 'false', 'id', 'desc');
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
-        $get_angsuran = $this->pengambilan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m'), 'status' => 'aktif'), true);
-        $jasa = ($get_angsuran) ? 0 : $data_anggota->total_pinjam * $data_anggota->bunga / 100;
+        $jasa = akumulasi_jasa($data_anggota);
         $data_anggota->jasa = $jasa;
 
         $data = array(
