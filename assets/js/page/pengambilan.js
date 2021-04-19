@@ -195,3 +195,97 @@ function ambil_pinjaman(id) {
         }
     });
 }
+
+function lunasinDariSimpanan() {
+    // $('#loadBtn').hide();
+    var id_anggota = $('#id_anggota').val();
+    var id_pinjam = $('#id_pinjam').val();
+    var pinjaman = parseInt($('#sisa_pinjaman').val());
+    var tabungan = parseInt($('#tabungan').val());
+    var sukarela = parseInt($('#sukarela').val());
+    var jasa = parseInt($('#jasa').val());
+    var sisa_simpanan_sukarela = parseInt($('#sisa_simpanan_sukarela').val());
+    var sisa_total_simpanan = parseInt($('#sisa_total_simpanan').val());
+
+    if (tabungan <= (pinjaman + jasa)) {
+        status = 'keluar';
+        Swal.fire({
+                title: 'Apa anda yakin?',
+                text: "Anda yakin ingin melunasi pinjaman dengan tabungan serta keluar dari keanggotaan?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya!',
+                cancelButtonText: 'Batal!'
+            }).then((result) => {
+                if (result.value == true) {
+                    $.ajax({
+                        type: 'POST',
+                        url: base_url + 'pengambilan/pelunasan_pinjaman/',
+                        data: { id_anggota: id_anggota, id_pinjam: id_pinjam, status: status, pinjaman: pinjaman, jasa: jasa, sukarela: sukarela, tabungan: tabungan },
+                        dataType: 'json',
+                        success: function(response) {
+                            window.location.href = base_url + 'pengambilan';
+                        },
+                        error: function() {}
+                    });
+                } else {
+                    $('#loadBtn').show();
+                }
+            })
+            // kurang = pinjaman - tabungan;
+            // total = kurang + jasa;
+            // status = 'keluar';
+
+        // totalKurang = formatRibuan(kurang);
+        // totalJasa = formatRibuan(jasa);
+        // totalBayar = formatRibuan(total);
+    } else if (sukarela >= (pinjaman + jasa)) {
+        var total_ambil = parseInt($('#total_pengambilan').val().replace(/\D+/g, ''));
+        if (total_ambil <= sisa_simpanan_sukarela) {
+            status = 'sukarela';
+            Swal.fire({
+                title: 'Apa anda yakin?',
+                text: "Anda yakin ingin melunasi pinjaman dengan saldo sukarela? lalu ambil simpanan sebesar Rp. " + total_ambil,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya!',
+                cancelButtonText: 'Batal!'
+            }).then((result) => {
+                if (result.value == true) {
+                    $.ajax({
+                        type: 'POST',
+                        url: base_url + 'pengambilan/pelunasan_pinjaman/',
+                        data: { id_anggota: id_anggota, id_pinjam: id_pinjam, status: status, sisa_simpanan_sukarela: sisa_simpanan_sukarela, pinjaman: pinjaman, jasa: jasa, total_ambil: total_ambil },
+                        dataType: 'json',
+                        success: function(response) {
+                            window.location.href = base_url + 'pengambilan';
+                        },
+                        error: function() {}
+                    });
+                } else {
+                    $('#loadBtn').show();
+                }
+            })
+        } else if (total_ambil > sisa_simpanan_sukarela && total_ambil < sisa_total_simpanan) {
+            console.log('gagal proses');
+        } else if (total_ambil > sisa_total_simpanan) {
+            console.log('pengambilan melebihi simpanan');
+        } else {
+            console.log('keluar anggota');
+        }
+        result = '';
+        $("#hitung").html(result);
+    }
+}
+
+function formatRibuan(angka) {
+    var rupiah = '';
+    var angkarev = angka.toString().split('').reverse().join('');
+    for (var i = 0; i < angkarev.length; i++)
+        if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+    return rupiah.split('', rupiah.length - 1).reverse().join('');
+}

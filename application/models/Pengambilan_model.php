@@ -151,4 +151,77 @@ class Pengambilan_model extends MY_Model
         }
         return $result;
     }
+
+    function pelunasan_pinjaman($id_petugas)
+    {
+        $post = $this->input->post();
+
+        $data_simpan = array(
+            'anggota_id'        => $post['id_anggota'],
+            'petugas_id'        => $id_petugas,
+            'jumlah_setor'      => $post['pinjaman'] + $post['jasa'],
+        );
+
+        $this->db->insert('t_simpan', $data_simpan);
+        $simpan = $this->db->insert_id();
+
+        $data_angsuran = array(
+            'pinjam_id'         => $post['id_pinjam'],
+            'simpan_id'         => $simpan,
+            'jasa'              => $post['jasa'],
+            'jumlah_angsuran'   => $post['pinjaman'],
+            'sisa_pinjaman'     => 0,
+        );
+
+        $this->db->insert('t_angsuran', $data_angsuran);
+
+        $this->db->where('id', $post['id_pinjam']);
+        $this->db->update('t_pinjam', array('status' => 'lunas'));
+        
+        if ($post['status'] == 'keluar') {
+            $data_kas = array(
+                'type'          => 'debet',
+                'description'   => 'Tambah kekurangan pelunasan pinjaman nomor anggota : ' . $post['id_anggota'],
+                'amount'        => ($post['pinjaman'] + $post['jasa']) - $post['tabungan'],
+            );
+            $this->db->insert('t_kas', $data_kas);
+        }
+
+        $data_ambil = array(
+            'pinjam_id'     => $post['id_pinjam'],
+            'anggota_id'    => $post['id_anggota'],
+            'type'          => 'pengambilan simpanan',
+            'petugas_id'    => $id_petugas,
+        );
+        if ($post['status'] == 'sukarela') {
+            $data_ambil['total_ambil']  = $post['pinjaman'] + $post['total_ambil'];
+            $data_ambil['sukarela']     = $post['pinjaman'] + $post['total_ambil'];
+        } else {
+            $data_ambil['total_ambil']  = $post['tabungan'];
+            $data_ambil['sukarela']     = $post['sukarela'];
+        }
+
+        $this->db->insert('t_pengambilan', $data_ambil);
+        $ambil = $this->db->insert_id();
+
+        if ($post['status'] == 'keluar') {
+            $this->update_data('t_anggota', array('status' => 'keluar', 'tgl_keluar' => date('Y-m-d')), array('id' => $post['id_anggota']));
+            $this->update_data('t_simpan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+            $this->update_data('t_pengambilan', array('status' => 'nonaktif'), array('anggota_id' => $post['id_anggota']));
+            $this->update_data('t_angsuran', array('status' => 'nonaktif'), array('pinjam_id' => $post['id_pinjam']));
+        }
+
+        if ($ambil) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Pelunasan pinjaman dan pengambilan simpanan berhasil!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Pelunasan pinjaman dan pengambilan simpanan gagal!',
+            );
+        }
+        return $result;
+    }
 }

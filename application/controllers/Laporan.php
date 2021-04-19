@@ -147,41 +147,7 @@ class Laporan extends MY_Controller
     function kas()
     {
         $this->load->model('pinjaman_model');
-        // $post = $this->input->post();
-        // $where = '';
-
-        // if (!empty($post['status'])) {
-        //     $where .= "trans_kas.type = '" . $post['status'] . "'";
-        // }
-
-        // if (!empty($post['bulan'])) {
-        //     if ($where != '') {
-        //         $where .= ' and ';
-        //     }
-        //     $where .= "MONTH(trans_kas.tgl_transaksi) = '" . $post['bulan'] . "'";
-        // }
-
-        // if (!empty($post['tahun'])) {
-        //     if ($where != '') {
-        //         $where .= ' and ';
-        //     }
-        //     $where .= "YEAR(trans_kas.tgl_transaksi) = '" . $post['tahun'] . "'";
-        // }
-
-        // if (!empty($post['periode'])) {
-        //     $periode = explode(' - ', $post['periode']);
-        //     $tgl_awal = tgl_db($periode[0]);
-        //     $tgl_akhir = tgl_db($periode[1]);
-
-        //     if ($where != '') {
-        //         $where .= ' and ';
-        //     }
-
-        //     $where .= "trans_kas.tgl_transaksi >= '" . $tgl_awal . " 00:00:00'";
-        //     $where .= "and trans_kas.tgl_transaksi <= '" . $tgl_akhir . " 23:59:59'";
-        // }
-
-        // $data_kas = $this->pinjaman_model->get_data_kas($where);
+        
         $data_kas = $this->pinjaman_model->get_data_kas();
 
         $nama_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'koperasi'), true);
