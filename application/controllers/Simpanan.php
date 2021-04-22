@@ -49,7 +49,7 @@ class Simpanan extends MY_Controller
 
                 $wajib = $wajib->nilai * $numBulan;
             } else {
-                $wajib = $wajib;
+                $wajib = $wajib->nilai;
             }
         }
         $jasa = akumulasi_jasa($data_anggota);

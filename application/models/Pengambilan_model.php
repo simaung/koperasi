@@ -159,7 +159,6 @@ class Pengambilan_model extends MY_Model
     function pelunasan_pinjaman($id_petugas)
     {
         $post = $this->input->post();
-
         $data_simpan = array(
             'anggota_id'        => $post['id_anggota'],
             'petugas_id'        => $id_petugas,
@@ -183,12 +182,14 @@ class Pengambilan_model extends MY_Model
         $this->db->update('t_pinjam', array('status' => 'lunas'));
 
         if ($post['status'] == 'keluar') {
-            $data_kas = array(
-                'type'          => 'debet',
-                'description'   => 'Tambah kekurangan pelunasan pinjaman nomor anggota : ' . $post['id_anggota'],
-                'amount'        => ($post['pinjaman'] + $post['jasa']) - $post['tabungan'],
-            );
-            $this->db->insert('t_kas', $data_kas);
+            if (($post['tabungan'] - $post['pinjaman'] + $post['jasa']) != $post['total_ambil']) {
+                $data_kas = array(
+                    'type'          => 'debet',
+                    'description'   => 'Tambah kekurangan pelunasan pinjaman nomor anggota : ' . $post['id_anggota'],
+                    'amount'        => ($post['pinjaman'] + $post['jasa']) - $post['tabungan'],
+                );
+                $this->db->insert('t_kas', $data_kas);
+            }
         }
 
         $data_ambil = array(
@@ -201,8 +202,13 @@ class Pengambilan_model extends MY_Model
             $data_ambil['total_ambil']  = $post['pinjaman'] + $post['total_ambil'];
             $data_ambil['sukarela']     = $post['pinjaman'] + $post['total_ambil'];
         } else {
-            $data_ambil['total_ambil']  = $post['tabungan'];
-            $data_ambil['sukarela']     = $post['sukarela'];
+            if (($post['tabungan'] - $post['pinjaman'] + $post['jasa']) != $post['total_ambil']) {
+                $data_ambil['total_ambil']  = $post['tabungan'];
+                $data_ambil['sukarela']     = $post['sukarela'];
+            } else {
+                $data_ambil['total_ambil']  = $post['total_ambil'];
+                $data_ambil['sukarela']     = $post['sukarela'] - ($post['pinjaman'] + $post['jasa']);
+            }
         }
 
         $this->db->insert('t_pengambilan', $data_ambil);
