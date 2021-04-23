@@ -82,7 +82,14 @@
                                     <input type="text" class="form-control form-control-lg uang" id="total_pengambilan" value="0">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-warning btn-block" id="loadBtn" onclick="lunasinDariSimpanan()">Lunasin pinjaman dan ambil simpanan</button>
+                            <div class="col-12 row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-danger btn-block" onclick="lunasinDariSimpanan()">Lunasin pinjaman dan ambil simpanan</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-warning btn-block float-right" onclick="ambilSimpananSaja()">Ambil simpanan saja</button>
+                                </div>
+                            </div>
                         <?php } ?>
                     </div>
                 </form>

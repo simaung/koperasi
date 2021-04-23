@@ -157,6 +157,7 @@ class Simpanan_model extends MY_Model
             }
         } else {
             $last_wajib = $post['tahun'] . '-' . $post['periode'] . '-01 00:00:00';
+            $last_wajib = date('Y-m-01', strtotime('-1 month', strtotime($last_wajib)));
         }
         for ($i = 1; $i <= $post['bulan']; $i++) {
             $data_simpan = array(
