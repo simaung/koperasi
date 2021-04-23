@@ -3,6 +3,14 @@
     $sisa_pinjaman = $data_anggota->total_pinjam - $data_anggota->jumlah_angsuran;
     ?>
     <input type="hidden" class="form-control" name="pinjam_id" value="<?php echo $data_anggota->pinjam_id; ?>">
+    <div class="col-12">
+        <div class="col-12">
+            <div class="form-group">
+                <label for="sisa_pinjaman" class="col-form-label">Total Simpanan :</label>
+                <input type="text" class="form-control uang" value="<?php echo $data_anggota->total_tabungan; ?>" disabled>
+            </div>
+        </div>
+    </div>
     <div class="col-4">
         <div class="col-12">
             <div class="form-group">
