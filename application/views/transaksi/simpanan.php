@@ -127,7 +127,7 @@
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Tanggal Setor :</label>
                                     <div class="input-group date" id="tgl_masuk" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input tanggal_fmt" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo date('d/m/y'); ?>" />
+                                        <input type="text" class="form-control datetimepicker-input tanggal_fmt" data-target="#tgl_masuk" name="tgl_masuk" value="<?php echo date('d/m/y'); ?>" disabled/>
                                         <div class="input-group-append" data-target="#tgl_masuk" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -197,21 +197,68 @@
                         </div>
                         <div class="col-12">
                             <div class="col-12">
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">&nbsp;</label>
-                                    <div class="input-group date" data-target-input="nearest">
-                                        <button type="submit" class="btn btn-primary btn-block" id="loadBtn">Simpan</button>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="pilih_periode" onclick="pilihPeriode()">
+                                    <label class="form-check-label">Pilih Periode</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="showPeriode" class="col-12" style="display:none">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="col-12">
+                                        <select class="form-control" name="periode" id="bulan">
+                                            <option value="">-- Bulan -- </option>
+                                            <option value="1">Januari</option>
+                                            <option value="2">Februari</option>
+                                            <option value="3">Maret</option>
+                                            <option value="4">April</option>
+                                            <option value="5">Mei</option>
+                                            <option value="6">Juni</option>
+                                            <option value="7">Juli</option>
+                                            <option value="8">Agustus</option>
+                                            <option value="9">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">November</option>
+                                            <option value="12">Desember</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php $tahun = date('Y'); ?>
+                                <div class="col-6">
+                                    <div class="col-12">
+                                        <select class="form-control" name="tahun" id="tahun">
+                                            <option value="">-- Tahun -- </option>
+                                            <?php for ($i = 1; $i < 3; $i++) { ?>
+                                                <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                            <?php
+                                                $tahun -= 1;
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <div class="col-12">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">&nbsp;</label>
+                                <div class="input-group date" data-target-input="nearest">
+                                    <button type="submit" class="btn btn-primary btn-block" id="loadBtn">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
-            <!-- /.modal-content -->
+            </form>
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
+</div>
 </div>
 <!-- /.modal -->
 

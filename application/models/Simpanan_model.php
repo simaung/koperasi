@@ -148,10 +148,16 @@ class Simpanan_model extends MY_Model
     function bayar_wajib($id_petugas)
     {
         $post = $_POST;
-
-        $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
-        $last_wajib = $last_wajib->created_at;
-
+        if (empty($post['periode'])) {
+            $last_wajib = $this->get_data('t_simpan', array('anggota_id' => $post['id_anggota'], 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
+            if ($last_wajib) {
+                $last_wajib = $last_wajib->created_at;
+            } else {
+                $last_wajib = date('y-m-d H:i:s');
+            }
+        } else {
+            $last_wajib = $post['tahun'] . '-' . $post['periode'] . '-01 00:00:00';
+        }
         for ($i = 1; $i <= $post['bulan']; $i++) {
             $data_simpan = array(
                 'anggota_id'        => $post['id_anggota'],

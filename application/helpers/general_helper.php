@@ -1,11 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * 
- * @author RegiJG
- *
- */
-
 if (!function_exists('rpToInt')) {
     function rpToInt($harga)
     {
@@ -30,31 +24,40 @@ function rp($angka)
 }
 
 if (!function_exists('akumulasi_jasa')) {
-    function akumulasi_jasa($data_anggota)
+    function akumulasi_jasa($data_anggota, $date = '')
     {
         $CI = get_instance();
         $CI->load->model('simpanan_model');
 
-        $get_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => date('m'), 'status' => 'aktif'), true);
-  
+
+        if ($date != '') {
+            $date_input = explode('-', $date);
+            $month = $date_input[1];
+            $year = $date_input[0];
+            $date = $date;
+        } else {
+            $month = date('m');
+            $year = date('Y');
+            $date = date("Y-m-d");
+        }
+
+        $get_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'MONTH(tgl_entry)' => $month, 'YEAR(tgl_entry)' => $year, 'status' => 'aktif'), true);
+
         if ($get_angsuran) {
             $jasa = 0;
         } else {
-            $last_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'status' => 'aktif'), true);
+            $last_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'status' => 'aktif'), 'true', 'id', 'desc');
             if ($last_angsuran) {
-                $date = date("Y-m-d");
-                $timeStart = strtotime($last_angsuran->created_at);
-                $timeEnd = strtotime("$date");
+                $timeStart = strtotime($last_angsuran->tgl_entry);
+                $timeEnd = strtotime($date);
                 $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
                 $numBulan += date("m", $timeEnd) - date("m", $timeStart);
 
                 $jasa = ($data_anggota->total_pinjam * $data_anggota->bunga / 100) * $numBulan;
             } else {
-                $get_pinjam = $CI->simpanan_model->get_data('t_pinjam', array('status' => 'belum'), false);
-                if ($get_pinjam) {
-                    $date = date("Y-m-d");
-                    $timeStart = strtotime($get_pinjam->tgl_persetujuan);
-                    $timeEnd = strtotime("$date");
+                if ($data_anggota->tgl_pinjam != '') {
+                    $timeStart = strtotime($data_anggota->tgl_pinjam);
+                    $timeEnd = strtotime($date);
                     $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
                     $numBulan += date("m", $timeEnd) - date("m", $timeStart);
 

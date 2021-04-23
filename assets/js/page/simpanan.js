@@ -6,11 +6,11 @@ var Toast = Swal.mixin({
     timer: 3000
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     jml_setor = $('.bulan').val() * $('.nilai_wajib').val();
     $('.jml_setor').val(jml_setor);
 
-    $('.bulan').on('input', function() {
+    $('.bulan').on('input', function () {
         jml_setor = $(this).val() * $('.nilai_wajib').val();
         $('.jml_setor').val(jml_setor);
     });
@@ -22,7 +22,7 @@ $(document).ready(function() {
         "ajax": {
             "url": base_url + 'simpanan/get_data_simpanan',
             "type": "POST",
-            'data': function(data) {
+            'data': function (data) {
                 data.nomor_anggota = $('#nomor_anggota').val();
                 data.nama_anggota = $('#nama_anggota').val();
             },
@@ -46,7 +46,7 @@ $(document).ready(function() {
             { 'data': 'created_at' },
             {
                 'data': null,
-                createdCell: function(td, rowData) {
+                createdCell: function (td, rowData) {
                     var html = '<a href= "' + base_url + 'anggota/detail/' + rowData.anggota_id + '">' + rowData.anggota_id + '</a><br>' + rowData.nama_anggota
                     $(td).html(html)
                 }
@@ -78,11 +78,11 @@ $(document).ready(function() {
         ],
     });
 
-    $('#nomor_anggota').keyup(function() {
+    $('#nomor_anggota').keyup(function () {
         table.ajax.reload();
     });
 
-    $('#nama_anggota').keyup(function() {
+    $('#nama_anggota').keyup(function () {
         table.ajax.reload();
     });
 
@@ -93,7 +93,7 @@ $(document).ready(function() {
         "ajax": {
             "url": base_url + 'anggota/get_data_anggota/aktif',
             "type": "POST",
-            'data': function(data) {
+            'data': function (data) {
                 data.nomor_anggota = $('#nomorAnggota').val();
                 data.nama_anggota = $('#namaAnggota').val();
                 data.status_anggota = $('#statusAnggota').val();
@@ -111,41 +111,46 @@ $(document).ready(function() {
             "sZeroRecords": "Data tidak ditemukan !"
         },
         'columns': [{
-                'data': 'no'
+            'data': 'no'
+        },
+        {
+            'data': 'id'
+        },
+        {
+            'data': 'nama_anggota'
+        },
+        {
+            "data": null,
+            createdCell: function (td, rowData) {
+                var html = '<button type="button" class="btn btn-xs btn-primary" onclick="getAnggota(' + rowData.id + ')">' +
+                    '<i class="ion-checkmark"></i>' +
+                    '</button>';
+                $(td).html(html)
             },
-            {
-                'data': 'id'
-            },
-            {
-                'data': 'nama_anggota'
-            },
-            {
-                "data": null,
-                createdCell: function(td, rowData) {
-                    var html = '<button type="button" class="btn btn-xs btn-primary" onclick="getAnggota(' + rowData.id + ')">' +
-                        '<i class="ion-checkmark"></i>' +
-                        '</button>';
-                    $(td).html(html)
-                },
-            }
+        }
         ],
     });
 
-    $('#statusAnggota').on('change', function() {
+    $('#statusAnggota').on('change', function () {
         table_anggota.ajax.reload();
     });
 
-    $('#nomorAnggota').keyup(function() {
+    $('#nomorAnggota').keyup(function () {
         table_anggota.ajax.reload();
     });
 
-    $('#namaAnggota').keyup(function() {
+    $('#namaAnggota').keyup(function () {
         table_anggota.ajax.reload();
     });
 
-    $(function() {
+    $(function () {
         $('#tgl_masuk, #tgl_lahir').datetimepicker({
             format: 'DD/MM/YYYY'
+        });
+
+        $('#tgl_masuk, #tgl_lahir').on("change.datetimepicker", function (e) {
+            id = $('.nomorAnggota').val();
+            getAnggota(id);
         });
     });
 
@@ -170,19 +175,22 @@ function getDataAnggota() {
 
 function getAnggota(id) {
     $("#data-anggota").html('');
+    month = $('.datetimepicker-input').val();
     $.ajax({
         type: 'POST',
         url: base_url + 'simpanan/get_data_anggota/' + id,
+        data: { month: month },
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
             $("#data-anggota").html(response.view);
             $('#modalAnggota').modal('hide')
             $('.nomorAnggotaSearch').val(id + ' - ' + response.nama);
             $('#nomorAnggota').val('');
             $('.nomorAnggota').val(id);
+            $('.datetimepicker-input').attr("disabled", false);
         },
-        error: function() {
-            $("#data-anggota").html('<a>papa</a>');
+        error: function () {
+            $("#data-anggota").html('<a>terjadi kesalahan pada sistem!</a>');
         }
     });
 }
@@ -210,18 +218,18 @@ $("#form_tambah_simpanan").validate({
         },
     },
     errorElement: 'span',
-    errorPlacement: function(error, element) {
+    errorPlacement: function (error, element) {
         error.addClass('invalid-feedback');
         element.closest('.form-group').append(error);
     },
-    submitHandler: function() {
+    submitHandler: function () {
         tombol_loading();
         $.ajax({
             type: 'POST',
             url: base_url + 'simpanan/tambah_simpanan',
             dataType: 'json',
             data: $("#form_tambah_simpanan").serialize(),
-            success: function(response) {
+            success: function (response) {
                 var obj = response;
                 if (obj.code == '200') {
                     toastr.success(obj.message)
@@ -229,12 +237,13 @@ $("#form_tambah_simpanan").validate({
                     table.ajax.reload();
                     tombol_reset()
                     $('#form_tambah_simpanan').trigger("reset");
+                    $('.datetimepicker-input').attr("disabled", true);
                 } else {
                     toastr.error(obj.message)
                     tombol_reset()
                 }
             },
-            error: function() {
+            error: function () {
                 toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
             }
         });
@@ -256,18 +265,18 @@ $("#form_bayar_wajib").validate({
         },
     },
     errorElement: 'span',
-    errorPlacement: function(error, element) {
+    errorPlacement: function (error, element) {
         error.addClass('invalid-feedback');
         element.closest('.form-group').append(error);
     },
-    submitHandler: function() {
+    submitHandler: function () {
         // tombol_loading();
         $.ajax({
             type: 'POST',
             url: base_url + 'simpanan/bayar_wajib',
             dataType: 'json',
             data: $("#form_bayar_wajib").serialize(),
-            success: function(response) {
+            success: function (response) {
                 var obj = response;
                 if (obj.code == '200') {
                     toastr.success(obj.message)
@@ -280,9 +289,22 @@ $("#form_bayar_wajib").validate({
                     tombol_reset()
                 }
             },
-            error: function() {
+            error: function () {
                 toastr.error("Mohon maaf sistem sedang dalam perbaikan, silakan hubungi admin terkait masalah ini")
             }
         });
     }
 });
+
+function pilihPeriode() {
+    var checkBox = document.getElementById("pilih_periode");
+    var text = document.getElementById("showPeriode");
+
+    if (checkBox.checked == true) {
+        text.style.display = "block";
+    } else {
+        text.style.display = "none";
+        $('#bulan').val('');
+        $('#tahun').val('');
+    }
+}

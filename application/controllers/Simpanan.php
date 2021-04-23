@@ -30,18 +30,30 @@ class Simpanan extends MY_Controller
 
     function get_data_anggota($id)
     {
+        $post = $this->input->post();
+
+        if (!empty(isset($post['month']))) {
+            $date_input = explode('/', $post['month']);
+            $month = $date_input[1];
+            $year = $date_input[2];
+            $date = $date_input[2] . '-' . $date_input[1] . '-' . $date_input[0];
+        } else {
+            $month = date('m');
+            $year = date('Y');
+            $date = date('Y-m-d');
+        }
+
         $this->load->model('anggota_model');
         $wajib  = $this->simpanan_model->get_data('t_setting', array('name' => 'wajib'), 'true');
 
         $data_anggota = $this->anggota_model->get_data_anggota($id);
 
-        $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => date('m'), 'pokok >=' => 0, 'status' => 'aktif'), true);
+        $get_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'MONTH(created_at)' => $month, 'YEAR(created_at)' => $year, 'pokok >=' => 0, 'status' => 'aktif'), true);
         if ($get_wajib) {
             $wajib = 0;
         } else {
             $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
             if ($last_wajib) {
-                $date = date("Y-m-d");
                 $timeStart = strtotime($last_wajib->created_at);
                 $timeEnd = strtotime("$date");
                 $numBulan = (date("Y", $timeEnd) - date("Y", $timeStart)) * 12;
@@ -52,7 +64,7 @@ class Simpanan extends MY_Controller
                 $wajib = $wajib->nilai;
             }
         }
-        $jasa = akumulasi_jasa($data_anggota);
+        $jasa = akumulasi_jasa($data_anggota, $date);
 
         $data = array(
             'wajib'         => $wajib,
