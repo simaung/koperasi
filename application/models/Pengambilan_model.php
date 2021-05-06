@@ -162,7 +162,8 @@ class Pengambilan_model extends MY_Model
         $data_simpan = array(
             'anggota_id'        => $post['id_anggota'],
             'petugas_id'        => $id_petugas,
-            'jumlah_setor'      => $post['pinjaman'] + $post['jasa'],
+            // 'jumlah_setor'      => $post['pinjaman'] + $post['jasa'],
+            'jumlah_setor'      => $post['tabungan'],
         );
 
         $this->db->insert('t_simpan', $data_simpan);
@@ -221,6 +222,7 @@ class Pengambilan_model extends MY_Model
             $this->update_data('t_angsuran', array('status' => 'nonaktif'), array('pinjam_id' => $post['id_pinjam']));
         }
 
+        echo $ambil;die;
         if ($ambil) {
             $result = array(
                 'code'          => '200',
