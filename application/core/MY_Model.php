@@ -25,6 +25,8 @@ class MY_Model extends CI_Model
 
         if ($single == 'false') {
             $this->db->limit(10);
+        } else if ($single == 'all') {
+            // $this->db->limit(1);
         } else {
             $this->db->limit(1);
         }

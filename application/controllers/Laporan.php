@@ -37,7 +37,7 @@ class Laporan extends MY_Controller
             $where['YEAR(tgl_masuk)'] = $post['tahun'];
         }
 
-        $data_anggota = $this->anggota_model->get_data('t_anggota', $where, 'false', 'tgl_masuk', 'DESC');
+        $data_anggota = $this->anggota_model->get_data('t_anggota', $where, 'all', 'id', 'ASC');
 
         $nama_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'koperasi'), true);
         $alamat_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'alamat'), true);
@@ -147,7 +147,7 @@ class Laporan extends MY_Controller
     function kas()
     {
         $this->load->model('pinjaman_model');
-        
+
         $data_kas = $this->pinjaman_model->get_data_kas();
 
         $nama_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'koperasi'), true);
