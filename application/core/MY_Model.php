@@ -35,6 +35,8 @@ class MY_Model extends CI_Model
 
         if ($single == 'false') {
             return $query->result();
+        } else if ($single == 'all') {
+            return $query->result();
         } else {
             return $query->row();
         }

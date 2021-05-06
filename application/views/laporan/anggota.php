@@ -31,24 +31,21 @@
 <?php } else { ?>
     <table border="1" align="center" width="100%" style="border: 1px solid black">
         <tr style="border: 1px solid black">
-            <th>No</th>
             <th width="130px">Nomor Anggota</th>
-            <th>Nama Anggota</th>
+            <th width="130px">Nama Anggota</th>
             <th>Alamat Anggota</th>
             <th>Tanggal Masuk</th>
             <th>Status</th>
         </tr>
-        <?php $i = 1;
+        <?php
         foreach ($anggota as $row) { ?>
             <tr>
-                <td style="border: 1px solid black;text-align:center"><?php echo $i; ?></td>
                 <td style="border: 1px solid black;text-align:center"><?php echo $row->id; ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->nama_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo ucfirst($row->alamat_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo tgl_indo($row->tgl_masuk); ?></td>
                 <td style="border: 1px solid black;text-align:center"><?php echo strtoupper($row->status); ?></td>
             </tr>
-        <?php $i++;
-        } ?>
+        <?php } ?>
     </table>
 <?php } ?>
