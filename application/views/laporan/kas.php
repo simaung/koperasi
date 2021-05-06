@@ -62,5 +62,22 @@
             <th style="border: 1px solid black;text-align:right"><?php echo rp($debet); ?></th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($kredit); ?></th>
         </tr>
+        <tr>
+            <td colspan="5" style="border: 0px">&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <table style="border: 1px solid black">
+        <tr>
+            <td>Saldo Sebelumnya</td>
+            <td>:</td>
+            <td><?php echo '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Saldo hari ini</td>
+            <td>:</td>
+            <td><?php echo rp($debet - $kredit); ?></td>
+        </tr>
     </table>
 <?php } ?>

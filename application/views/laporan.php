@@ -49,7 +49,7 @@
                                     <option value="keluar">Keluar</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <select class="form-control" name="bulan">
                                     <option value="">-- Bulan -- </option>
                                     <option value="1">Januari</option>
@@ -77,7 +77,7 @@
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="col-md-3">
                                 <input type="hidden" class="id_anggota" name="id_anggota">
                                 <button type="submit" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
@@ -111,7 +111,7 @@
                                 <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <select class="form-control" name="bulan">
                                 <option value="">-- Bulan -- </option>
                                 <option value="1">Januari</option>
@@ -139,7 +139,7 @@
                                 }
                                 ?>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-md-2">
                             <input type="hidden" class="id_anggota" name="id_anggota">
                             <button type="submit" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
@@ -190,7 +190,7 @@
                                 <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <select class="form-control" name="bulan">
                                 <option value="">-- Bulan -- </option>
                                 <option value="1">Januari</option>
@@ -218,7 +218,7 @@
                                 }
                                 ?>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-md-2">
                             <input type="hidden" class="id_anggota" name="id_anggota">
                             <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
@@ -249,7 +249,7 @@
                                 <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <select class="form-control" name="bulan">
                                 <option value="">-- Bulan -- </option>
                                 <option value="1">Januari</option>
@@ -277,7 +277,7 @@
                                 }
                                 ?>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-md-2">
                             <input type="hidden" class="id_anggota" name="id_anggota">
                             <button class="btn btn-primary printLaporanPinjaman"><i class="nav-icon fa fa-print"></i></button>
