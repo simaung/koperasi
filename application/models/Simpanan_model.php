@@ -134,12 +134,14 @@ class Simpanan_model extends MY_Model
     {
         $this->db->select('a.*');
         $this->db->select('t_anggota.id as anggota_id, t_anggota.nama_anggota');
+        $this->db->select('v_tabungan_anggota.total_tabungan');
         $this->db->where($where);
         $this->db->where('a.show_report', '1');
         $this->db->where('a.status', 'aktif');
         $this->db->select('t_angsuran.jumlah_angsuran, t_angsuran.jasa, t_angsuran.sisa_pinjaman');
         $this->db->join('t_anggota', 'a.anggota_id = t_anggota.id');
         $this->db->join('t_angsuran', 'a.id = t_angsuran.simpan_id', 'left');
+        $this->db->join('v_tabungan_anggota', 'a.anggota_id = v_tabungan_anggota.id', 'left');
         $this->db->order_by('a.created_at', 'asc');
         $query = $this->db->get('t_simpan a');
         return $query->result();

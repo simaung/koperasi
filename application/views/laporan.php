@@ -28,7 +28,7 @@
                     <select class="form-control" id="pilihLaporan">
                         <option>-- Pilih Data Laporan -- </option>
                         <option value="anggota"> Laporan Anggota </option>
-                        <option value="simpanan"> Laporan Simpanan </option>
+                        <option value="simpanan"> Laporan Setoran </option>
                         <option value="pinjaman"> Laporan Pinjaman </option>
                         <option value="kas"> Laporan Kas Keuangan </option>
                     </select>
@@ -88,7 +88,7 @@
         </div>
         <div class="col-md-12 rptSimpanan d-none">
             <div class="card-body">
-                <h4>Laporan Simpanan</h4>
+                <h4>Laporan Setoran</h4>
                 <form action="<?php echo base_url('laporan/simpanan'); ?>" method="post" target="_blank">
                     <div class="row">
                         <div class="col-md-3">
@@ -108,7 +108,7 @@
                                         <i class="far fa-calendar-alt"></i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                                <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -187,7 +187,7 @@
                                         <i class="far fa-calendar-alt"></i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                                <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -246,7 +246,7 @@
                                         <i class="far fa-calendar-alt"></i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control float-right reservation" value="" name="periode">
+                                <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-2">

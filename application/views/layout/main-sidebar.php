@@ -58,7 +58,7 @@
             <li class="nav-item">
               <a href="<?php echo base_url('simpanan'); ?>" class="nav-link <?php echo ($this->path == 'simpanan') ? 'active' : ''; ?>">
                 <i class="far fa-save nav-icon"></i>
-                <p>Tambah Simpanan</p>
+                <p>Tambah Setoran</p>
               </a>
             </li>
             <li class="nav-item">

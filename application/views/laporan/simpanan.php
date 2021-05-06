@@ -25,14 +25,14 @@
 <hr>
 <br>
 <h6 style="text-align:right">Dicetak : <?php echo tgl_indo(date('Y-m-d H:i:s'), 'time'); ?></h6>
-<h2 style="text-align:center">Laporan Simpanan</h2>
+<h2 style="text-align:center">Laporan Setoran</h2>
 <?php if (empty($simpanan)) { ?>
     <p>Data kosong...</p>
 <?php } else { ?>
     <table border="1" align="center" width="100%" style="border: 1px solid black">
         <tr style="border: 1px solid black">
             <th>No</th>
-            <th width="150px">Tanggal Transaksi</th>
+            <th>Tanggal</th>
             <th width="130px">Nomor Anggota</th>
             <th>Nama Anggota</th>
             <th>Pokok</th>
@@ -40,8 +40,9 @@
             <th>Sukarela</th>
             <th>Angsuran</th>
             <th>Jasa</th>
-            <th>Jumlah Setor</th>
+            <th>Setor</th>
             <th>Sisa Pinjaman</th>
+            <th>Total Tabungan</th>
         </tr>
         <?php
         $pokok = 0;
@@ -66,6 +67,7 @@
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jasa); ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jumlah_setor); ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($row->sisa_pinjaman); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->total_tabungan); ?></td>
             </tr>
         <?php $i++;
             $pokok +=  $row->pokok;

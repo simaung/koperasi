@@ -3,12 +3,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Data Simpanan</h1>
+                <h1 class="m-0">Data Setoran</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>">Home</a></li>
-                    <li class="breadcrumb-item active">Data Simpanan</li>
+                    <li class="breadcrumb-item active">Data Setoran</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header border-transparent">
                         <button type="button" class="btn btn-primary" onclick="modalSimpanan()">
-                            Tambah Simpanan
+                            Tambah Setoran
                         </button>
                         <button type="button" class="btn btn-warning" onclick="modalWajib()">
                             Bayar wajib
@@ -100,7 +100,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Simpanan</h4>
+                <h4 class="modal-title">Tambah Setoran</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
