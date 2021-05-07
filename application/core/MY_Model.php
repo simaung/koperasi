@@ -69,7 +69,7 @@ class MY_Model extends CI_Model
         }
     }
 
-    function get_data_kas()
+    function get_data_kas($sebelumnya = '')
     {
         $post = $this->input->post();
         $where = '';
@@ -174,6 +174,7 @@ class MY_Model extends CI_Model
             $periode = explode(' - ', $post['periode']);
             $tgl_awal = tgl_db($periode[0]);
             $tgl_akhir = tgl_db($periode[1]);
+            $tgl_sebelum = date('Y-m-d', strtotime($tgl_awal . ' - 1 days'));
 
             if ($select_kredit != '') {
                 if ($where_kredit != '') {
@@ -181,8 +182,12 @@ class MY_Model extends CI_Model
                 } else {
                     $where_kredit = ' where ';
                 }
-                $where_kredit .= "tgl_ambil >= '" . $tgl_awal . " 00:00:00'";
-                $where_kredit .= "and tgl_ambil <= '" . $tgl_akhir . " 23:59:59'";
+                if ($sebelumnya == '') {
+                    $where_kredit .= "tgl_ambil >= '" . $tgl_awal . " 00:00:00'";
+                    $where_kredit .= "and tgl_ambil <= '" . $tgl_akhir . " 23:59:59'";
+                } else {
+                    $where_kredit .= "tgl_ambil <= '" . $tgl_sebelum . " 23:59:59'";
+                }
 
                 $select_kredit .= $where_kredit;
             }
@@ -192,21 +197,25 @@ class MY_Model extends CI_Model
                 } else {
                     $where_debet = ' and ';
                 }
-                $where_debet .= "created_at >= '" . $tgl_awal . " 00:00:00'";
-                $where_debet .= "and created_at <= '" . $tgl_akhir . " 23:59:59'";
+                if ($sebelumnya == '') {
+                    $where_debet .= "created_at >= '" . $tgl_awal . " 00:00:00'";
+                    $where_debet .= " and created_at <= '" . $tgl_akhir . " 23:59:59'";
+                } else {
+                    $where_debet .= " created_at <= '" . $tgl_sebelum . " 23:59:59'";
+                }
 
                 $select_debet .= $where_debet;
             }
 
-            if ($where != '') {
-                $where = ' and ';
+            if ($sebelumnya == '') {
+                $where .= "where tgl_entry >= '" . $tgl_awal . " 00:00:00'";
+                $where .= "and tgl_entry <= '" . $tgl_akhir . " 23:59:59'";
             } else {
-                $where = ' where ';
+                $where .= "where tgl_entry <= '" . $tgl_sebelum . " 23:59:59'";
             }
-
-            $where .= "tgl_entry >= '" . $tgl_awal . " 00:00:00'";
-            $where .= "and tgl_entry <= '" . $tgl_akhir . " 23:59:59'";
-            $select_kas .= $where;
+            $select_kas .= $where . ' and';
+        } else {
+            $select_kas .= 'where';
         }
 
         if (!empty($post['status'])) {
@@ -224,7 +233,7 @@ class MY_Model extends CI_Model
             select * from(
                 " . $select_debet . "
                 " . $select_kredit . "
-                " . $select_kas . " and description not like '%Biaya Admin Pinjaman Nomor Anggota%'
+                " . $select_kas . "  description not like '%Biaya Admin Pinjaman Nomor Anggota%'
             )as trans_kas order by trans_kas.tgl_transaksi asc
         ";
 

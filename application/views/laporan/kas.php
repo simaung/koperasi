@@ -62,9 +62,19 @@
             <th style="border: 1px solid black;text-align:right"><?php echo rp($debet); ?></th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($kredit); ?></th>
         </tr>
-        <tr>
-            <td colspan="5" style="border: 0px">&nbsp;</td>
-        </tr>
+
+        <?php
+        $kredit_sebelum = 0;
+        $debet_sebelum = 0;
+        foreach ($kas_sebelumnya as $row_sebelum) {
+            if ($row_sebelum->type == 'kredit') {
+                $kredit_sebelum += $row_sebelum->amount;
+            } elseif ($row_sebelum->type == 'debet') {
+                $debet_sebelum += $row_sebelum->amount;
+            }
+        }
+        ?>
+
     </table>
     <br>
     <br>
@@ -72,12 +82,12 @@
         <tr>
             <td>Saldo Sebelumnya</td>
             <td>:</td>
-            <td><?php echo '-'; ?></td>
+            <td style="text-align:right"><?php echo rp($debet_sebelum - $kredit_sebelum); ?></td>
         </tr>
         <tr>
             <td>Saldo hari ini</td>
             <td>:</td>
-            <td><?php echo rp($debet - $kredit); ?></td>
+            <td style="text-align:right"><?php echo rp($debet - $kredit); ?></td>
         </tr>
     </table>
 <?php } ?>
