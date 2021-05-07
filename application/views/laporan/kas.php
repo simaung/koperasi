@@ -85,9 +85,14 @@
             <td style="text-align:right"><?php echo rp($debet_sebelum - $kredit_sebelum); ?></td>
         </tr>
         <tr>
-            <td>Saldo hari ini</td>
+            <td>Saldo transaksi <?php echo tgl_indo($tgl_akhir); ?></td>
             <td>:</td>
             <td style="text-align:right"><?php echo rp($debet - $kredit); ?></td>
+        </tr>
+        <tr>
+            <td>Total Saldo per <?php echo tgl_indo($tgl_akhir); ?></td>
+            <td>:</td>
+            <td style="text-align:right"><?php echo rp(($debet_sebelum - $kredit_sebelum) + ($debet - $kredit)); ?></td>
         </tr>
     </table>
 <?php } ?>

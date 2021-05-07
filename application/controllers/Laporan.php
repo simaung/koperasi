@@ -156,10 +156,15 @@ class Laporan extends MY_Controller
         $nama_koperasi    = $nama_koperasi[0]->value;
         $alamat_koperasi  = $alamat_koperasi[0]->value;
 
+        $post = $this->input->post();
+        $periode = explode(' - ', $post['periode']);
+        $tgl_akhir = tgl_db($periode[1]);
+
         $data['nama_koperasi']      = $nama_koperasi;
         $data['alamat_koperasi']    = $alamat_koperasi;
         $data['kas'] = $data_kas;
         $data['kas_sebelumnya'] = $data_kas_sebelum;
+        $data['tgl_akhir']  = $tgl_akhir;
 
         $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
         $html = $this->load->view('laporan/kas', $data, true);
