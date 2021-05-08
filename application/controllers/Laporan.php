@@ -148,8 +148,8 @@ class Laporan extends MY_Controller
     {
         $this->load->model('pinjaman_model');
 
+        $data_kas_sebelum = $this->pinjaman_model->get_data_saldo();
         $data_kas = $this->pinjaman_model->get_data_kas();
-        $data_kas_sebelum = $this->pinjaman_model->get_data_kas('sebelum');
 
         $nama_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'koperasi'), true);
         $alamat_koperasi = $this->pinjaman_model->get_data('t_setting', array('name' => 'alamat'), true);
@@ -163,7 +163,7 @@ class Laporan extends MY_Controller
         $data['nama_koperasi']      = $nama_koperasi;
         $data['alamat_koperasi']    = $alamat_koperasi;
         $data['kas'] = $data_kas;
-        $data['kas_sebelumnya'] = $data_kas_sebelum;
+        $data['kas_sebelumnya'] = $data_kas_sebelum->saldo;
         $data['tgl_akhir']  = $tgl_akhir;
 
         $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);

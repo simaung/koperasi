@@ -247,4 +247,20 @@ class MY_Model extends CI_Model
             return FALSE;
         }
     }
+
+    function get_data_saldo()
+    {
+        $post = $this->input->post();
+
+        $periode = explode(' - ', $post['periode']);
+        $tgl_awal = tgl_db($periode[0]);
+        $tgl_akhir = tgl_db($periode[1]);
+
+        $this->db->select('*');
+        $this->db->where('tanggal <', $tgl_awal);
+        $this->db->order_by('tanggal', 'DESC');
+        $saldo = $this->db->get('t_saldo')->row();
+
+        return $saldo;
+    }
 }

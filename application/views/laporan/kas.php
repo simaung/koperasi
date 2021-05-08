@@ -63,17 +63,17 @@
             <th style="border: 1px solid black;text-align:right"><?php echo rp($kredit); ?></th>
         </tr>
 
-        <?php
-        $kredit_sebelum = 0;
-        $debet_sebelum = 0;
-        foreach ($kas_sebelumnya as $row_sebelum) {
-            if ($row_sebelum->type == 'kredit') {
-                $kredit_sebelum += $row_sebelum->amount;
-            } elseif ($row_sebelum->type == 'debet') {
-                $debet_sebelum += $row_sebelum->amount;
-            }
-        }
-        ?>
+        <!-- <?php
+                $kredit_sebelum = 0;
+                $debet_sebelum = 0;
+                foreach ($kas_sebelumnya as $row_sebelum) {
+                    if ($row_sebelum->type == 'kredit') {
+                        $kredit_sebelum += $row_sebelum->amount;
+                    } elseif ($row_sebelum->type == 'debet') {
+                        $debet_sebelum += $row_sebelum->amount;
+                    }
+                }
+                ?> -->
 
     </table>
     <br>
@@ -82,7 +82,7 @@
         <tr>
             <td>Saldo Sebelumnya</td>
             <td>:</td>
-            <td style="text-align:right"><?php echo rp($debet_sebelum - $kredit_sebelum); ?></td>
+            <td style="text-align:right"><?php echo rp($kas_sebelumnya); ?></td>
         </tr>
         <tr>
             <td>Saldo transaksi <?php echo tgl_indo($tgl_akhir); ?></td>
@@ -92,7 +92,7 @@
         <tr>
             <td>Total Saldo per <?php echo tgl_indo($tgl_akhir); ?></td>
             <td>:</td>
-            <td style="text-align:right"><?php echo rp(($debet_sebelum - $kredit_sebelum) + ($debet - $kredit)); ?></td>
+            <td style="text-align:right"><?php echo rp(($kas_sebelumnya) + ($debet - $kredit)); ?></td>
         </tr>
     </table>
 <?php } ?>
