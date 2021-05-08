@@ -92,7 +92,7 @@
         <tr>
             <td>Total Saldo per <?php echo tgl_indo($tgl_akhir); ?></td>
             <td>:</td>
-            <td style="text-align:right"><?php echo rp(($kas_sebelumnya) + ($debet - $kredit)); ?></td>
+            <td style="text-align:right;font-size:18px;font-weight:bold"><?php echo rp(($kas_sebelumnya) + ($debet - $kredit)); ?></td>
         </tr>
     </table>
 <?php } ?>
