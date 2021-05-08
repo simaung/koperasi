@@ -259,8 +259,7 @@ class MY_Model extends CI_Model
             $this->db->where('tanggal <', $tgl_awal);
             $this->db->order_by('tanggal', 'DESC');
             $saldo = $this->db->get('t_saldo')->row();
+            return $saldo;
         }
-
-        return $saldo;
     }
 }
