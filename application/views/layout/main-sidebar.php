@@ -80,6 +80,12 @@
                 <p>Kas</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('saldo'); ?>" class="nav-link <?php echo ($this->path == 'saldo') ? 'active' : ''; ?>">
+                <i class="fas fa-cash-register nav-icon"></i>
+                <p>Tambah Saldo</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item menu-open">
