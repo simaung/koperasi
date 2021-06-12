@@ -46,7 +46,7 @@ if (!function_exists('akumulasi_jasa')) {
         if ($get_angsuran) {
             $jasa = 0;
         } else {
-            $last_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'status' => 'aktif'), 'true', 'id', 'desc');
+            $last_angsuran = $CI->simpanan_model->get_data('t_angsuran', array('pinjam_id' => $data_anggota->pinjam_id, 'status' => 'aktif'), 'true', 'tgl_entry', 'desc');
             if ($last_angsuran) {
                 $timeStart = strtotime($last_angsuran->tgl_entry);
                 $timeEnd = strtotime($date);
