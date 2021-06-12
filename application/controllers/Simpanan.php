@@ -52,7 +52,7 @@ class Simpanan extends MY_Controller
         if ($get_wajib) {
             $wajib = 0;
         } else {
-            $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'id', 'desc');
+            $last_wajib = $this->simpanan_model->get_data('t_simpan', array('anggota_id' => $id, 'wajib != 0' => null, 'status' => 'aktif'), 'true', 'created_at', 'desc');
             if ($last_wajib) {
                 $timeStart = strtotime($last_wajib->created_at);
                 $timeEnd = strtotime("$date");
