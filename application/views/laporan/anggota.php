@@ -34,8 +34,12 @@
             <th width="130px">Nomor Anggota</th>
             <th width="130px">Nama Anggota</th>
             <th>Alamat Anggota</th>
-            <th>Tanggal Masuk</th>
             <th>Status</th>
+            <th>Pokok</th>
+            <th>Wajib</th>
+            <th>Sukarela</th>
+            <th>Total Tabungan</th>
+            <th>Sisa Pinjaman</th>
         </tr>
         <?php
         foreach ($anggota as $row) { ?>
@@ -43,8 +47,12 @@
                 <td style="border: 1px solid black;text-align:center"><?php echo $row->id; ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->nama_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo ucfirst($row->alamat_anggota); ?></td>
-                <td style="border: 1px solid black"><?php echo tgl_indo($row->tgl_masuk); ?></td>
                 <td style="border: 1px solid black;text-align:center"><?php echo strtoupper($row->status); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->pokok); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->wajib); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->sukarela); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->total_tabungan); ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->total_pinjam - $row->jumlah_angsuran); ?></td>
             </tr>
         <?php } ?>
     </table>
