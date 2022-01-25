@@ -77,19 +77,11 @@ class Laporan extends MY_Controller
 
         $data_simpanan = $this->simpanan_model->get_data_simpanan($where);
 
-        $nama_koperasi = $this->simpanan_model->get_data('t_setting', array('name' => 'koperasi'), true);
-        $alamat_koperasi = $this->simpanan_model->get_data('t_setting', array('name' => 'alamat'), true);
-        $nama_koperasi    = $nama_koperasi[0]->value;
-        $alamat_koperasi  = $alamat_koperasi[0]->value;
-
-        $data['nama_koperasi']      = $nama_koperasi;
-        $data['alamat_koperasi']    = $alamat_koperasi;
-        $data['simpanan'] = $data_simpanan;
-
-        $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
-        $html = $this->load->view('laporan/simpanan', $data, true);
-        $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        if ($this->input->post("cetak") == "cetakPdf") {
+            $this->cetakPdf($data_simpanan, 'simpanan');
+        } elseif ($this->input->post("cetak") == "cetakExcel") {
+            $this->cetakExcel($data_simpanan, 'simpanan');
+        }
     }
 
     function pinjaman()
@@ -169,6 +161,8 @@ class Laporan extends MY_Controller
 
     private function cetakPdf($data, $type)
     {
+        $this->load->model('anggota_model');
+
         $nama_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'koperasi'), true);
         $alamat_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'alamat'), true);
         $nama_koperasi    = $nama_koperasi[0]->value;
@@ -187,10 +181,6 @@ class Laporan extends MY_Controller
     private function cetakExcel($data, $type)
     {
         $spreadsheet = new Spreadsheet;
-
-        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFill()
-            ->setFillType(Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('FFDFDDDD');
 
         if ($type == 'anggota') {
             $spreadsheet->setActiveSheetIndex(0)
@@ -215,6 +205,33 @@ class Laporan extends MY_Controller
                     ->setCellValue('G' . $kolom, $row->sukarela)
                     ->setCellValue('H' . $kolom, $row->total_tabungan)
                     ->setCellValue('I' . $kolom, $row->total_pinjam - $row->jumlah_angsuran);
+                $kolom++;
+            }
+        } elseif ($type == 'simpanan') {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Tanggal')
+                ->setCellValue('B1', 'Nomor')
+                ->setCellValue('C1', 'Nama')
+                ->setCellValue('D1', 'Pokok')
+                ->setCellValue('E1', 'Wajib')
+                ->setCellValue('F1', 'Sukarela')
+                ->setCellValue('G1', 'Angsuran')
+                ->setCellValue('H1', 'Jasa')
+                ->setCellValue('I1', 'Setor')
+                ->setCellValue('J1', 'Sisa Pinjaman');
+            $kolom = 2;
+            foreach ($data as $row) {
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A' . $kolom, $row->created_at)
+                    ->setCellValue('B' . $kolom, $row->anggota_id)
+                    ->setCellValue('C' . $kolom, $row->nama_anggota)
+                    ->setCellValue('D' . $kolom, $row->pokok)
+                    ->setCellValue('E' . $kolom, $row->wajib)
+                    ->setCellValue('F' . $kolom, $row->sukarela)
+                    ->setCellValue('G' . $kolom, $row->jumlah_angsuran)
+                    ->setCellValue('H' . $kolom, $row->jasa)
+                    ->setCellValue('I' . $kolom, $row->jumlah_setor)
+                    ->setCellValue('J' . $kolom, $row->sisa_pinjaman);
                 $kolom++;
             }
         }

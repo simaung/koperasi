@@ -143,7 +143,8 @@
                         </div> -->
                         <div class="col-md-2">
                             <input type="hidden" class="id_anggota" name="id_anggota">
-                            <button type="submit" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
+                            <button type="submit" name="cetak" value="cetakPdf" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
+                            <button type="submit" name="cetak" value="cetakExcel" class="btn btn-success"><i class="nav-icon fa fa-file-excel"></i></button>
                         </div>
                     </div>
                 </form>
