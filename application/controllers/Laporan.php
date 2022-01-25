@@ -2,6 +2,10 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+
 class Laporan extends MY_Controller
 {
     function __construct()
@@ -37,22 +41,13 @@ class Laporan extends MY_Controller
             $where['YEAR(tgl_masuk)'] = $post['tahun'];
         }
 
-        $data_anggota = $this->anggota_model->get_data_anggota();
+        $data_anggota = $this->anggota_model->get_data_anggota(null, $where);
 
-        $nama_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'koperasi'), true);
-        $alamat_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'alamat'), true);
-        $nama_koperasi    = $nama_koperasi[0]->value;
-        $alamat_koperasi  = $alamat_koperasi[0]->value;
-
-        $data['nama_koperasi']      = $nama_koperasi;
-        $data['alamat_koperasi']    = $alamat_koperasi;
-        $data['anggota'] = $data_anggota;
-
-
-        $mpdf = new \Mpdf\Mpdf();
-        $html = $this->load->view('laporan/anggota', $data, true);
-        $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        if ($this->input->post("cetak") == "cetakPdf") {
+            $this->cetakPdf($data_anggota, 'anggota');
+        } elseif ($this->input->post("cetak") == "cetakExcel") {
+            $this->cetakExcel($data_anggota, 'anggota');
+        }
     }
 
     function simpanan()
@@ -170,5 +165,65 @@ class Laporan extends MY_Controller
         $html = $this->load->view('laporan/kas', $data, true);
         $mpdf->WriteHTML($html);
         $mpdf->Output();
+    }
+
+    private function cetakPdf($data, $type)
+    {
+        $nama_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'koperasi'), true);
+        $alamat_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'alamat'), true);
+        $nama_koperasi    = $nama_koperasi[0]->value;
+        $alamat_koperasi  = $alamat_koperasi[0]->value;
+
+        $dataPdf['nama_koperasi']      = $nama_koperasi;
+        $dataPdf['alamat_koperasi']    = $alamat_koperasi;
+        $dataPdf[$type] = $data;
+
+        $mpdf = new \Mpdf\Mpdf();
+        $html = $this->load->view('laporan/' . $type, $dataPdf, true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
+
+    private function cetakExcel($data, $type)
+    {
+        $spreadsheet = new Spreadsheet;
+
+        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('FFDFDDDD');
+
+        if ($type == 'anggota') {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Nomor')
+                ->setCellValue('B1', 'Nama')
+                ->setCellValue('C1', 'Alamat')
+                ->setCellValue('D1', 'Status')
+                ->setCellValue('E1', 'Pokok')
+                ->setCellValue('F1', 'Wajib')
+                ->setCellValue('G1', 'Sukarela')
+                ->setCellValue('H1', 'Total Tabungan')
+                ->setCellValue('I1', 'Sisa Pinjaman');
+            $kolom = 2;
+            foreach ($data as $row) {
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A' . $kolom, $row->id)
+                    ->setCellValue('B' . $kolom, $row->nama_anggota)
+                    ->setCellValue('C' . $kolom, $row->alamat_anggota)
+                    ->setCellValue('D' . $kolom, $row->status)
+                    ->setCellValue('E' . $kolom, $row->pokok)
+                    ->setCellValue('F' . $kolom, $row->wajib)
+                    ->setCellValue('G' . $kolom, $row->sukarela)
+                    ->setCellValue('H' . $kolom, $row->total_tabungan)
+                    ->setCellValue('I' . $kolom, $row->total_pinjam - $row->jumlah_angsuran);
+                $kolom++;
+            }
+        }
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename=' . $type . '.xlsx');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
     }
 }

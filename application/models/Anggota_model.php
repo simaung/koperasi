@@ -175,9 +175,13 @@ class Anggota_model extends MY_Model
         return $result;
     }
 
-    function get_data_anggota($id = null)
+    function get_data_anggota($id = null, $where = [])
     {
         $this->db->select('*');
+
+        if (!empty($where))
+            $this->db->where($where);
+
         if ($id) {
             $this->db->where('id', $id);
             $query = $this->db->get('v_tabungan_anggota');
