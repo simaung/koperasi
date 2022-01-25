@@ -175,11 +175,17 @@ class Anggota_model extends MY_Model
         return $result;
     }
 
-    function get_data_anggota($id)
+    function get_data_anggota($id = null)
     {
         $this->db->select('*');
-        $this->db->where('id', $id);
-        $query = $this->db->get('v_tabungan_anggota');
-        return $query->row();
+        if ($id) {
+            $this->db->where('id', $id);
+            $query = $this->db->get('v_tabungan_anggota');
+            return $query->row();
+        } else {
+            $query = $this->db->order_by('nama_anggota', 'ASC');
+            $query = $this->db->get('v_tabungan_anggota');
+            return $query->result();
+        }
     }
 }

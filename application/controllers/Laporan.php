@@ -37,7 +37,7 @@ class Laporan extends MY_Controller
             $where['YEAR(tgl_masuk)'] = $post['tahun'];
         }
 
-        $data_anggota = $this->anggota_model->get_data('t_anggota', $where, 'all', 'id', 'ASC');
+        $data_anggota = $this->anggota_model->get_data_anggota();
 
         $nama_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'koperasi'), true);
         $alamat_koperasi = $this->anggota_model->get_data('t_setting', array('name' => 'alamat'), true);
