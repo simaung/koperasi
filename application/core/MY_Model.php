@@ -262,4 +262,118 @@ class MY_Model extends CI_Model
             return $saldo;
         }
     }
+
+    function get_data_transaksi()
+    {
+        $post = $this->input->post();
+
+        $debet = "
+            select
+            'debet' as type,
+            'setor' as description,
+            pokok + wajib + sukarela as amount,
+            jumlah_angsuran as angsuran,
+            jasa,
+            b.id as nomor_anggota, b.nama_anggota,
+            created_at as tgl_transaksi
+            from t_simpan a
+            left join t_anggota b on a.anggota_id = b.id
+            left join t_angsuran c on c.simpan_id = a.id
+            where show_report = '1'
+        ";
+
+        $kredit = "
+            select 
+            'kredit' as type,
+            type as description,
+            total_ambil as amount,
+            0 as angsuran,
+            0 as jasa,
+            b.id as nomor_anggota, b.nama_anggota,
+            tgl_ambil as tgl_transaksi
+            from t_pengambilan a
+            left join t_anggota b on a.anggota_id = b.id
+            where type = 'pengambilan simpanan'
+        ";
+
+        if (!empty($post['tahun'])) {
+            $debet .= "and YEAR(created_at ) = '" . $post['tahun'] . "'";
+            $kredit .= "and YEAR(tgl_ambil ) = '" . $post['tahun'] . "'";
+        };
+
+        if (!empty($post['id_anggota'])) {
+            $debet .= "and b.id = '" . $post['id_anggota'] . "'";
+            $kredit .= "and b.id = '" . $post['id_anggota'] . "'";
+        };
+
+        $debet_akhir = $debet;
+        $kredit_akhir = $kredit;
+
+        if (!empty($post['periode'])) {
+            $periode = explode(' - ', $post['periode']);
+            $tgl_awal = tgl_db($periode[0]);
+            $tgl_akhir = tgl_db($periode[1]);
+
+            $kredit .= "and tgl_ambil >= '" . $tgl_awal . " 00:00:00'";
+            $kredit .= "and tgl_ambil <= '" . $tgl_akhir . " 23:59:59'";
+
+            $debet .= "and created_at >= '" . $tgl_awal . " 00:00:00'";
+            $debet .= " and created_at <= '" . $tgl_akhir . " 23:59:59'";
+        }
+
+        $sql = "select * from(
+            " . $debet . "
+            union all 
+            " . $kredit . "
+        ) as transaksi 
+        order by transaksi.tgl_transaksi asc";
+
+        $query = $this->db->query($sql)->result();
+        $query_akhir = 0;
+        $idAnggota = false;
+
+        if (!empty($post['id_anggota'])) {
+            if (!empty($post['periode'])) {
+                $debet_akhir .= " and created_at <= '" . $tgl_awal . " 00:00:00'";
+                $kredit_akhir .= "and tgl_ambil <= '" . $tgl_awal . " 00:00:00'";
+                $sql = "select (sum(
+                    CASE
+                    WHEN transaksi.type = 'debet' THEN
+                        amount
+                    ELSE
+                        0
+                    END
+                )-
+                sum(
+                    CASE
+                    WHEN transaksi.type = 'kredit' THEN
+                        amount
+                    ELSE
+                        0
+                    END
+                )) saldo
+                 from(
+                    " . $debet_akhir . "
+                    union all 
+                    " . $kredit_akhir . "
+                    ) as transaksi 
+                    order by transaksi.tgl_transaksi asc";
+                $query_akhir = $this->db->query($sql)->row();
+                $query_akhir = $query_akhir->saldo;
+            } else {
+                $query_akhir = 0;
+            }
+            $idAnggota = true;
+        };
+
+        if ($query) {
+            return array(
+                'transaksi' => $query,
+                'saldo_akhir' => $query_akhir,
+                'idAnggota' => $idAnggota
+            );
+        } else {
+            return FALSE;
+        }
+    }
 }

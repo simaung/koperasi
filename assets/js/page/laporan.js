@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('.reservation').daterangepicker({
         autoUpdateInput: false,
         locale: {
@@ -7,11 +7,11 @@ $(document).ready(function() {
         }
     });
 
-    $('.reservation').on('apply.daterangepicker', function(ev, picker) {
+    $('.reservation').on('apply.daterangepicker', function (ev, picker) {
         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
     });
 
-    $('.reservation').on('cancel.daterangepicker', function(ev, picker) {
+    $('.reservation').on('cancel.daterangepicker', function (ev, picker) {
         $(this).val('');
     });
 
@@ -22,7 +22,7 @@ $(document).ready(function() {
         "ajax": {
             "url": base_url + 'anggota/get_data_anggota/aktif',
             "type": "POST",
-            'data': function(data) {
+            'data': function (data) {
                 data.nomor_anggota = $('#nomorAnggota').val();
                 data.nama_anggota = $('#namaAnggota').val();
                 data.status_anggota = $('#statusAnggota').val();
@@ -40,45 +40,48 @@ $(document).ready(function() {
             "sZeroRecords": "Data tidak ditemukan !"
         },
         'columns': [{
-                'data': 'no'
+            'data': 'no'
+        },
+        {
+            'data': 'id'
+        },
+        {
+            'data': 'nama_anggota'
+        },
+        {
+            "data": null,
+            createdCell: function (td, rowData) {
+                var html = '<button type="button" class="btn btn-xs btn-primary" onclick="getAnggota(' + rowData.id + ')">' +
+                    '<i class="ion-checkmark"></i>' +
+                    '</button>';
+                $(td).html(html)
             },
-            {
-                'data': 'id'
-            },
-            {
-                'data': 'nama_anggota'
-            },
-            {
-                "data": null,
-                createdCell: function(td, rowData) {
-                    var html = '<button type="button" class="btn btn-xs btn-primary" onclick="getAnggota(' + rowData.id + ')">' +
-                        '<i class="ion-checkmark"></i>' +
-                        '</button>';
-                    $(td).html(html)
-                },
-            }
+        }
         ],
     });
 
-    $('#nomorAnggota').keyup(function() {
+    $('#nomorAnggota').keyup(function () {
         table_anggota.ajax.reload();
     });
 
-    $('#namaAnggota').keyup(function() {
+    $('#namaAnggota').keyup(function () {
         table_anggota.ajax.reload();
     });
 
     function hideRpt() {
         $('.rptAnggota').addClass('d-none');
+        $('.rptTransaksi').addClass('d-none');
         $('.rptSimpanan').addClass('d-none');
         $('.rptPinjaman').addClass('d-none');
         $('.rptKasKeuangan').addClass('d-none');
     }
-    $('#pilihLaporan').on("change", function() {
+    $('#pilihLaporan').on("change", function () {
         hideRpt();
         opt = $(this).val();
         if (opt == 'anggota') {
             $('.rptAnggota').removeClass('d-none');
+        } else if (opt == 'transaksi') {
+            $('.rptTransaksi').removeClass('d-none');
         } else if (opt == 'simpanan') {
             $('.rptSimpanan').removeClass('d-none');
         } else if (opt == 'pinjaman') {
@@ -88,7 +91,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.btnClear').on('click', function() {
+    $('.btnClear').on('click', function () {
         $('.nomorAnggotaSearch').val('');
         $('.id_anggota').val('');
         $('#modalAnggota').modal('hide')
@@ -108,14 +111,14 @@ function getAnggota(id) {
         type: 'POST',
         url: base_url + 'simpanan/get_data_anggota/' + id,
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
             // $("#data-anggota").html(response.view);
             $('#modalAnggota').modal('hide')
             $('.nomorAnggotaSearch').val(id + ' - ' + response.nama);
             $('#nomorAnggota').val('');
             $('.id_anggota').val(id);
         },
-        error: function() {
+        error: function () {
             // $("#data-anggota").html('<a>papa</a>');
         }
     });

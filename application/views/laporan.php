@@ -28,6 +28,7 @@
                     <select class="form-control" id="pilihLaporan">
                         <option>-- Pilih Data Laporan -- </option>
                         <option value="anggota"> Laporan Anggota </option>
+                        <option value="transaksi"> Laporan Transaksi </option>
                         <option value="simpanan"> Laporan Setoran </option>
                         <option value="pinjaman"> Laporan Pinjaman </option>
                         <option value="kas"> Laporan Kas Keuangan </option>
@@ -85,6 +86,53 @@
                             </div>
                     </form>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 rptTransaksi d-none">
+            <div class="card-body">
+                <h4>Laporan Transaksi</h4>
+                <form action="<?php echo base_url('laporan/transaksi'); ?>" method="post" target="_blank">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group date" data-target-input="nearest">
+                                    <input type="text" class="form-control nomorAnggotaSearch" placeholder="nomor anggota" disabled>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" onclick="getDataAnggota()"><i class="fa fa-search"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right reservation" value="" name="periode" autocomplete="off">
+                            </div>
+                        </div>
+                        <?php $tahun = date('Y'); ?>
+                        <div class="col-md-2">
+                            <select class="form-control" name="tahun">
+                                <option value="">-- Tahun -- </option>
+                                <?php for ($i = 1; $i < 4; $i++) { ?>
+                                    <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                <?php
+                                    $tahun -= 1;
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="hidden" class="id_anggota" name="id_anggota">
+                            <button type="submit" name="cetak" value="cetakPdf" class="btn btn-primary"><i class="nav-icon fa fa-print"></i></button>
+                            <button type="submit" name="cetak" value="cetakExcel" class="btn btn-success"><i class="nav-icon fa fa-file-excel"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-md-12 rptSimpanan d-none">
@@ -237,8 +285,8 @@
                         <div class="col-md-3">
                             <select class="form-control" name="status">
                                 <option value="">-- Status -- </option>
-                                <option value="debet">Debet</option>
-                                <option value="kredit">Kredit</option>
+                                <option value="debet">Masuk</option>
+                                <option value="kredit">Keluar</option>
                             </select>
                         </div>
                         <div class="col-md-3">

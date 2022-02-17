@@ -50,6 +50,19 @@ class Laporan extends MY_Controller
         }
     }
 
+    function transaksi()
+    {
+        $this->load->model('simpanan_model');
+
+        $data_transaksi = $this->simpanan_model->get_data_transaksi();
+
+        if ($this->input->post("cetak") == "cetakPdf") {
+            $this->cetakPdf($data_transaksi, 'transaksi');
+        } elseif ($this->input->post("cetak") == "cetakExcel") {
+            $this->cetakExcel($data_transaksi, 'transaksi');
+        }
+    }
+
     function simpanan()
     {
         $this->load->model('simpanan_model');
@@ -192,7 +205,8 @@ class Laporan extends MY_Controller
                 ->setCellValue('F1', 'Wajib')
                 ->setCellValue('G1', 'Sukarela')
                 ->setCellValue('H1', 'Total Tabungan')
-                ->setCellValue('I1', 'Sisa Pinjaman');
+                ->setCellValue('I1', 'Jasa')
+                ->setCellValue('J1', 'Sisa Pinjaman');
             $kolom = 2;
             foreach ($data as $row) {
                 $spreadsheet->setActiveSheetIndex(0)
@@ -204,7 +218,8 @@ class Laporan extends MY_Controller
                     ->setCellValue('F' . $kolom, $row->wajib)
                     ->setCellValue('G' . $kolom, $row->sukarela)
                     ->setCellValue('H' . $kolom, $row->total_tabungan)
-                    ->setCellValue('I' . $kolom, $row->total_pinjam - $row->jumlah_angsuran);
+                    ->setCellValue('I' . $kolom, $row->jasa)
+                    ->setCellValue('J' . $kolom, $row->total_pinjam - $row->jumlah_angsuran);
                 $kolom++;
             }
         } elseif ($type == 'simpanan') {
@@ -232,6 +247,57 @@ class Laporan extends MY_Controller
                     ->setCellValue('H' . $kolom, $row->jasa)
                     ->setCellValue('I' . $kolom, $row->jumlah_setor)
                     ->setCellValue('J' . $kolom, $row->sisa_pinjaman);
+                $kolom++;
+            }
+        } elseif ($type == 'transaksi') {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Tanggal')
+                ->setCellValue('B1', 'Nomor')
+                ->setCellValue('C1', 'Nama')
+                ->setCellValue('D1', 'Transaksi')
+                ->setCellValue('E1', 'Pemasukan')
+                ->setCellValue('F1', 'Pengeluaran');
+
+            if ($data['idAnggota'] == true) {
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('G1', 'Angsuran')
+                    ->setCellValue('H1', 'Jasa')
+                    ->setCellValue('I1', 'Total Tabungan');
+            }
+
+            if ($data['idAnggota'] == true) {
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A2', 'Total')
+                    ->setCellValue('I2', $data['saldo_akhir']);
+            }
+
+            $kolom = 2;
+            $total = 0;
+            if ($data['idAnggota'] == true) {
+                $kolom = 3;
+                $total = $data['saldo_akhir'];
+            }
+
+            foreach ($data['transaksi'] as $row) {
+                if ($row->type == 'debet') {
+                    $total += $row->amount;
+                } else {
+                    $total -= $row->amount;
+                }
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A' . $kolom, $row->tgl_transaksi)
+                    ->setCellValue('B' . $kolom, $row->nomor_anggota)
+                    ->setCellValue('C' . $kolom, $row->nama_anggota)
+                    ->setCellValue('D' . $kolom, $row->description)
+                    ->setCellValue('E' . $kolom, ($row->type == 'debet') ? $row->amount : '0')
+                    ->setCellValue('F' . $kolom, ($row->type == 'kredit') ? $row->amount : '0');
+
+                if ($data['idAnggota'] == true) {
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('G' . $kolom, $row->angsuran)
+                        ->setCellValue('H' . $kolom, $row->jasa)
+                        ->setCellValue('I' . $kolom, $total);
+                }
                 $kolom++;
             }
         }
