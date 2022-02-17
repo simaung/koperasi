@@ -49,6 +49,7 @@
                                         <th>No</th>
                                         <th>Tanggal Transaksi</th>
                                         <th>Jumlah Saldo</th>
+                                        <th>Edit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,3 +116,43 @@
     </div>
 </div>
 <!-- /.modal -->
+
+
+<div class="modal fade" id="modalUpdate" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Saldo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form_update_saldo">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-bordered" id="tableKas">
+                                <thead>
+                                    <tr>
+                                        <th>Jumlah Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="hidden" name="id" id="idUpdate"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="saldo" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-success btn-block" id="loadBtn">Ubah</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>

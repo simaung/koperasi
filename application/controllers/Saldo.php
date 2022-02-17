@@ -34,6 +34,7 @@ class Saldo extends MY_Controller
             $no++;
             $row = array();
             $row['no'] = $no;
+            $row['id'] =  $field->id;
             $row['tanggal'] =  tgl_indo($field->tanggal);
             $row['saldo'] = rp($field->saldo);
 
@@ -53,6 +54,18 @@ class Saldo extends MY_Controller
     function tambah_transaksi()
     {
         $data = $this->saldo_model->tambah_transaksi($this->authData['id_user']);
+        echo json_encode($data);
+    }
+
+    function update_transaksi()
+    {
+        $data = $this->saldo_model->update_transaksi($this->authData['id_user']);
+        echo json_encode($data);
+    }
+
+    function delete_transaksi($id)
+    {
+        $data = $this->saldo_model->delete_transaksi($id);
         echo json_encode($data);
     }
 }

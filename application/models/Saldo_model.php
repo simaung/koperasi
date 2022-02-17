@@ -3,7 +3,7 @@
 class Saldo_model extends MY_Model
 {
     public $table = 't_saldo';
-    public $column = array(null, 'tanggal', 'saldo');
+    public $column = array('id', 'tanggal', 'saldo');
     public $order = array('tanggal' => 'desc');
 
     function __construct()
@@ -67,6 +67,50 @@ class Saldo_model extends MY_Model
             $result = array(
                 'code'          => '400',
                 'message'       => 'Saldo gagal disimpan!',
+            );
+        }
+        return $result;
+    }
+
+    function update_transaksi()
+    {
+        $post = $this->input->post();
+
+        $data_saldo = array(
+            'saldo'        => $post['saldo'],
+        );
+
+        $this->db->where('id', $post['id']);
+        $update = $this->db->update('t_saldo', $data_saldo);;
+
+        if ($update) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Saldo berhasil diupdate!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Saldo gagal diupdate!',
+            );
+        }
+        return $result;
+    }
+
+    function delete_transaksi($id)
+    {
+        $this->db->where('id', $id);
+        $delete = $this->db->delete('t_saldo');
+
+        if ($delete) {
+            $result = array(
+                'code'          => '200',
+                'message'       => 'Data berhasil dihapus!',
+            );
+        } else {
+            $result = array(
+                'code'          => '400',
+                'message'       => 'Data gagal dihapus!',
             );
         }
         return $result;
