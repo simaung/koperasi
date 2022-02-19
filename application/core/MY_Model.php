@@ -126,49 +126,49 @@ class MY_Model extends CI_Model
             $select_kredit = $kredit;
         }
 
-        if (!empty($post['bulan'])) {
-            if ($select_kredit != '') {
-                $where_kredit = "where ";
-                $select_kredit .= $where_kredit . "MONTH(tgl_ambil ) = '" . $post['bulan'] . "'";
-            }
-            if ($select_debet != '') {
-                $where_debet = "and ";
-                $select_debet .= $where_debet . "MONTH(created_at ) = '" . $post['bulan'] . "'";
-            }
+        // if (!empty($post['bulan'])) {
+        //     if ($select_kredit != '') {
+        //         $where_kredit = "where ";
+        //         $select_kredit .= $where_kredit . "MONTH(tgl_ambil ) = '" . $post['bulan'] . "'";
+        //     }
+        //     if ($select_debet != '') {
+        //         $where_debet = "and ";
+        //         $select_debet .= $where_debet . "MONTH(created_at ) = '" . $post['bulan'] . "'";
+        //     }
 
-            if ($where != '') {
-                $where = ' and ';
-            } else {
-                $where = ' where ';
-            }
-            $select_kas .= $where . " MONTH(tgl_entry) = '" . $post['bulan'] . "'";
-        }
+        //     if ($where != '') {
+        //         $where = ' and ';
+        //     } else {
+        //         $where = ' where ';
+        //     }
+        //     $select_kas .= $where . " MONTH(tgl_entry) = '" . $post['bulan'] . "'";
+        // }
 
-        if (!empty($post['tahun'])) {
-            if ($select_kredit != '') {
-                if ($where_kredit != '') {
-                    $where_kredit = ' and ';
-                } else {
-                    $where_kredit = ' where ';
-                }
-                $select_kredit .= $where_kredit . "YEAR(tgl_ambil ) = '" . $post['tahun'] . "'";
-            }
-            if ($select_debet != '') {
-                if ($where_debet != '') {
-                    $where_debet = ' and ';
-                } else {
-                    $where_debet = ' where ';
-                }
-                $select_debet .= $where_debet . "YEAR(created_at ) = '" . $post['tahun'] . "'";
-            }
+        // if (!empty($post['tahun'])) {
+        //     if ($select_kredit != '') {
+        //         if ($where_kredit != '') {
+        //             $where_kredit = ' and ';
+        //         } else {
+        //             $where_kredit = ' where ';
+        //         }
+        //         $select_kredit .= $where_kredit . "YEAR(tgl_ambil ) = '" . $post['tahun'] . "'";
+        //     }
+        //     if ($select_debet != '') {
+        //         if ($where_debet != '') {
+        //             $where_debet = ' and ';
+        //         } else {
+        //             $where_debet = ' where ';
+        //         }
+        //         $select_debet .= $where_debet . "YEAR(created_at ) = '" . $post['tahun'] . "'";
+        //     }
 
-            if ($where != '') {
-                $where = ' and ';
-            } else {
-                $where = ' where ';
-            }
-            $select_kas .= $where . " YEAR(tgl_entry) = '" . $post['tahun'] . "'";
-        }
+        //     if ($where != '') {
+        //         $where = ' and ';
+        //     } else {
+        //         $where = ' where ';
+        //     }
+        //     $select_kas .= $where . " YEAR(tgl_entry) = '" . $post['tahun'] . "'";
+        // }
 
         if (!empty($post['periode'])) {
             $periode = explode(' - ', $post['periode']);
@@ -209,16 +209,19 @@ class MY_Model extends CI_Model
                 $select_debet .= $where_debet;
             }
 
+            $where_kas = '';
+            $condition = ($where != '') ? 'and' : 'where';
             if ($sebelumnya == '') {
-                $where .= "where tgl_entry >= '" . $tgl_awal . " 00:00:00'";
-                $where .= "and tgl_entry <= '" . $tgl_akhir . " 23:59:59'";
+                $where_kas .= " $condition tgl_entry >= '" . $tgl_awal . " 00:00:00'";
+                $where_kas .= " and tgl_entry <= '" . $tgl_akhir . " 23:59:59'";
             } else {
-                $where .= "where tgl_entry >= '" . $tgl_sebelum . " 00:00:00'";
-                $where .= "and tgl_entry <= '" . $tgl_sebelum . " 23:59:59'";
+                $where_kas .= " $condition tgl_entry >= '" . $tgl_sebelum . " 00:00:00'";
+                $where_kas .= " and tgl_entry <= '" . $tgl_sebelum . " 23:59:59'";
             }
-            $select_kas .= $where . ' and';
+
+            $select_kas .= $where_kas . ' and';
         } else {
-            $select_kas .= 'where';
+            $select_kas .= ' and';
         }
 
         if (!empty($post['status'])) {

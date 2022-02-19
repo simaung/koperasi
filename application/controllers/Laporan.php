@@ -146,6 +146,12 @@ class Laporan extends MY_Controller
 
     function kas()
     {
+        $post = $this->input->post();
+        if (!$post['periode']) {
+            echo 'Tanggal tidak boleh kosong';
+            die;
+        }
+        
         $this->load->model('pinjaman_model');
 
         $data_kas_sebelum = $this->pinjaman_model->get_data_saldo();
@@ -156,7 +162,6 @@ class Laporan extends MY_Controller
         $nama_koperasi    = $nama_koperasi[0]->value;
         $alamat_koperasi  = $alamat_koperasi[0]->value;
 
-        $post = $this->input->post();
         $periode = explode(' - ', $post['periode']);
         $tgl_akhir = tgl_db($periode[1]);
 
