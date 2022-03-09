@@ -274,6 +274,7 @@ class MY_Model extends CI_Model
             select
             'debet' as type,
             'setor' as description,
+            pokok,wajib,sukarela,
             pokok + wajib + sukarela as amount,
             jumlah_angsuran as angsuran,
             jasa,
@@ -289,6 +290,7 @@ class MY_Model extends CI_Model
             select 
             'kredit' as type,
             type as description,
+            0 as pokok,0 as wajib,0 as sukarela,
             total_ambil as amount,
             0 as angsuran,
             0 as jasa,

@@ -10,7 +10,9 @@ if (!function_exists('tgl_indo')) {
     function tgl_indo($tgl, $time = '')
     {
         if ($time == '') {
-            $pecah = explode("-", $tgl);
+            $pecah = explode(" ", $tgl);
+
+            $pecah = explode("-", $pecah[0]);
             $tanggal = $pecah[2];
             $bulan = bulan($pecah[1]);
             $tahun = $pecah[0];

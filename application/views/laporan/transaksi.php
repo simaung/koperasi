@@ -32,21 +32,28 @@
     <table border="1" align="center" width="100%" style="border: 1px solid black">
         <tr style="border: 1px solid black">
             <th>No</th>
-            <th width="200px">Tanggal Transaksi</th>
+            <th width="140px">Tanggal</th>
             <th>Nomor</th>
             <th>Nama</th>
             <th>Transaksi</th>
-            <th>Pemasukan</th>
+            <th colspan="5">Pemasukan</th>
             <th>Pengeluaran</th>
             <?php if ($transaksi['idAnggota'] == true) { ?>
-                <th>Angsuran</th>
-                <th>Jasa</th>
                 <th>Total Tabungan</th>
             <?php } ?>
         </tr>
+        <tr>
+            <th colspan="5"></th>
+            <th>Pokok</th>
+            <th>Wajib</th>
+            <th>Sukarela</th>
+            <th>Angsuran</th>
+            <th>Jasa</th>
+            <th colspan="4"></th>
+        </tr>
         <?php if ($transaksi['idAnggota'] == true) { ?>
             <tr>
-                <td colspan=9 style="text-align:center">Saldo Awal</td>
+                <td colspan="11"><b>Saldo Awal</b></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo rp($transaksi['saldo_akhir']); ?></td>
             </tr>
         <?php } ?>
@@ -55,26 +62,35 @@
         $debet = 0;
         $angsuran = 0;
         $jasa = 0;
+        $pokok = 0;
+        $wajib = 0;
+        $sukarela = 0;
         $i = 1;
         $total = $transaksi['saldo_akhir'];
         foreach ($transaksi['transaksi'] as $row) {
             if ($row->type == 'debet') {
                 $total += $row->amount;
+                $pokok += $row->pokok;
+                $wajib += $row->wajib;
+                $sukarela += $row->sukarela;
             } else {
                 $total -= $row->amount;
             }
         ?>
             <tr>
                 <td style="border: 1px solid black;text-align:center"><?php echo $i; ?></td>
-                <td style="border: 1px solid black"><?php echo tgl_indo($row->tgl_transaksi, 'time'); ?></td>
+                <td style="border: 1px solid black"><?php echo tgl_indo($row->tgl_transaksi); ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->nomor_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->nama_anggota); ?></td>
                 <td style="border: 1px solid black"><?php echo ucwords($row->description); ?></td>
-                <td style="border: 1px solid black;text-align:right"><?php echo ($row->type == 'debet') ? rp($row->amount) : '0'; ?></td>
+                <!-- <td style="border: 1px solid black;text-align:right"><?php echo ($row->type == 'debet') ? rp($row->amount) : '0'; ?></td> -->
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->pokok) ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->wajib) ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->sukarela) ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->angsuran) ?></td>
+                <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jasa) ?></td>
                 <td style="border: 1px solid black;text-align:right"><?php echo ($row->type == 'kredit') ? rp($row->amount) : '0'; ?></td>
                 <?php if ($transaksi['idAnggota'] == true) { ?>
-                    <td style="border: 1px solid black;text-align:right"><?php echo rp($row->angsuran) ?></td>
-                    <td style="border: 1px solid black;text-align:right"><?php echo rp($row->jasa) ?></td>
                     <td style="border: 1px solid black;text-align:right"><?php echo rp($total) ?></td>
                 <?php } ?>
             </tr>
@@ -89,11 +105,14 @@
         } ?>
         <tr style="font-size:20px">
             <th colspan="5">Total</th>
-            <th style="border: 1px solid black;text-align:right"><?php echo rp($debet); ?></th>
+            <!-- <th style="border: 1px solid black;text-align:right"><?php echo rp($debet); ?></th> -->
+            <th style="border: 1px solid black;text-align:right"><?php echo rp($pokok); ?></th>
+            <th style="border: 1px solid black;text-align:right"><?php echo rp($wajib); ?></th>
+            <th style="border: 1px solid black;text-align:right"><?php echo rp($sukarela); ?></th>
+            <th style="border: 1px solid black;text-align:right"><?php echo rp($angsuran); ?></th>
+            <th style="border: 1px solid black;text-align:right"><?php echo rp($jasa); ?></th>
             <th style="border: 1px solid black;text-align:right"><?php echo rp($kredit); ?></th>
             <?php if ($transaksi['idAnggota'] == true) { ?>
-                <th style="border: 1px solid black;text-align:right"><?php echo rp($angsuran); ?></th>
-                <th style="border: 1px solid black;text-align:right"><?php echo rp($jasa); ?></th>
                 <th style="border: 1px solid black;text-align:right"><?php echo rp($total); ?></th>
             <?php } ?>
         </tr>
