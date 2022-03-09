@@ -151,7 +151,7 @@ class Laporan extends MY_Controller
             echo 'Tanggal tidak boleh kosong';
             die;
         }
-        
+
         $this->load->model('pinjaman_model');
 
         $data_kas_sebelum = $this->pinjaman_model->get_data_saldo();
@@ -260,20 +260,22 @@ class Laporan extends MY_Controller
                 ->setCellValue('B1', 'Nomor')
                 ->setCellValue('C1', 'Nama')
                 ->setCellValue('D1', 'Transaksi')
-                ->setCellValue('E1', 'Pemasukan')
-                ->setCellValue('F1', 'Pengeluaran');
+                ->setCellValue('E1', 'Pokok')
+                ->setCellValue('F1', 'Wajib')
+                ->setCellValue('G1', 'Sukarela')
+                ->setCellValue('H1', 'Angsuran')
+                ->setCellValue('I1', 'Jasa')
+                ->setCellValue('J1', 'Pengeluaran');
 
             if ($data['idAnggota'] == true) {
                 $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('G1', 'Angsuran')
-                    ->setCellValue('H1', 'Jasa')
-                    ->setCellValue('I1', 'Total Tabungan');
+                    ->setCellValue('K1', 'Total Tabungan');
             }
 
             if ($data['idAnggota'] == true) {
                 $spreadsheet->setActiveSheetIndex(0)
                     ->setCellValue('A2', 'Total')
-                    ->setCellValue('I2', $data['saldo_akhir']);
+                    ->setCellValue('K2', $data['saldo_akhir']);
             }
 
             $kolom = 2;
@@ -294,14 +296,17 @@ class Laporan extends MY_Controller
                     ->setCellValue('B' . $kolom, $row->nomor_anggota)
                     ->setCellValue('C' . $kolom, $row->nama_anggota)
                     ->setCellValue('D' . $kolom, $row->description)
-                    ->setCellValue('E' . $kolom, ($row->type == 'debet') ? $row->amount : '0')
-                    ->setCellValue('F' . $kolom, ($row->type == 'kredit') ? $row->amount : '0');
+                    // ->setCellValue('E' . $kolom, ($row->type == 'debet') ? $row->amount : '0')
+                    ->setCellValue('E' . $kolom, $row->pokok)
+                    ->setCellValue('F' . $kolom, $row->wajib)
+                    ->setCellValue('G' . $kolom, $row->sukarela)
+                    ->setCellValue('H' . $kolom, $row->angsuran)
+                    ->setCellValue('I' . $kolom, $row->jasa)
+                    ->setCellValue('J' . $kolom, ($row->type == 'kredit') ? $row->amount : '0');
 
                 if ($data['idAnggota'] == true) {
                     $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('G' . $kolom, $row->angsuran)
-                        ->setCellValue('H' . $kolom, $row->jasa)
-                        ->setCellValue('I' . $kolom, $total);
+                        ->setCellValue('K' . $kolom, $total);
                 }
                 $kolom++;
             }
